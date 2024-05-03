@@ -109,7 +109,27 @@ function Home() {
         // console.log(logInUserResult)
 
         console.log(logInUserResult.data.user, 'login successful')
-        navigate(`/main`,);
+
+        switch (logInUserResult.data.user.role) {
+          case 'directeur':
+            navigate('/directeur');
+            break;
+          case 'agentTc':
+            navigate('/agentTc');
+            break;
+          case 'commission':
+            navigate('/commission');
+            break;
+          case 'controlleurDeGestion':
+            navigate('/cg');
+            break;
+          case 'admin':
+            navigate('/admin');
+            break;
+          default:
+            // Handle other roles or no role defined
+            break;
+        }
         
       }
 

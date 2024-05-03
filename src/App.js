@@ -2,18 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './components/Home';
 import Register from './components/Register';
-import Main from './components/Main';
+import Directeur from './components/Directeur';
 import Admin from './components/Admin';
 import CdcList from './components/Cdc'
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from './features/users/userSlice';
+import AgentTc from './components/AgentTc';
+import Commission from './components/Commission';
+import Cdg from './components/Cdg';
+import NavBar from './components/NavBar';
 
 function App() {
   // Assume userRoles is an array containing the roles of the authenticated user
 
   // Define a custom route component that checks user roles and permissions
   const ProtectedRoute = ({ element, requiredRoles }) => {
-    const user = useSelector(selectUser)
+    const user = useSelector(selectUser) // hnaya sa depend ntaya kifach rak tkhabi les donnees ta3 logedin user haka rani dayarha b Redux
     console.log(user)
     if (!user) {
 
@@ -38,8 +42,16 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/main" element={<ProtectedRoute element={<Main />} requiredRoles={["agentTc", "admin", "directeur", "commission", "controlleurDeGestion"]} />} />
-          <Route path="/cdc" element={<ProtectedRoute element={<CdcList />} requiredRoles={["agentTc", "admin", "directeur", "commission", "controlleurDeGestion"]} />} />
+
+          <Route path="/directeur" element={<ProtectedRoute element={<><NavBar/><Directeur /></>} requiredRoles={[ "admin", "directeur"]} />} />
+        
+          <Route path="/agentTc" element={<ProtectedRoute element={<><NavBar /><AgentTc /></>} requiredRoles={["agentTc", "admin"]} />} />
+          <Route path="/commission" element={<ProtectedRoute element={<><NavBar /><Commission /></>} requiredRoles={["commission", "admin"]} />} />
+          <Route path="/cg" element={<ProtectedRoute element={<><NavBar /><Cdg /></>} requiredRoles={["controlleurDeGestion", "admin"]} />} />
+         
+         
+       
+
           <Route path="/admin" element={<ProtectedRoute element={<Admin />} requiredRoles={["admin"]} />} />
 
 

@@ -3,17 +3,17 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { apiSlice } from "./api/apiSlice";
 import userReducer from "../features/users/userSlice";
-import productReducer from '../features/products/productSlice'
+import tenderReducer from '../features/tenders/tender'
 import saleReducer from "../features/sales/saleSlice";
 const userPersistConfig = {
     key: "user",
     storage,
     whitelist: ["user",'token'], 
 };
-const productsPersistConfig = {
-    key: "product",
+const tendersPersistConfig = {
+    key: "tender",
     storage,
-    whitelist: ["products"], 
+    whitelist: ["tenders"], 
 };
 const salesPersistConfig = {
     key: "sale",
@@ -22,13 +22,13 @@ const salesPersistConfig = {
 };
 
 const userPersistedReducer = persistReducer(userPersistConfig, userReducer);
-const productsPersistedReducer = persistReducer(productsPersistConfig, productReducer);
+const tendersPersistedReducer = persistReducer(tendersPersistConfig, tenderReducer);
 const salesPersistedReducer = persistReducer(salesPersistConfig, saleReducer);
 
 const staticReducer = {
 
     user: userPersistedReducer,
-    products: productsPersistedReducer,
+    tenders: tendersPersistedReducer,
     sales: salesPersistedReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
 };

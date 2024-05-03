@@ -1,25 +1,12 @@
 import html2canvas from "html2canvas";
-import { setProduct } from "../features/products/productSlice";
-import { setSaleToStore } from "../features/sales/saleSlice";
+import { setTenders } from "../features/tenders/tender";
 import { logOut } from "../features/users/userSlice";
 import jsPDF from "jspdf";
 
-export const convertFileToBase64 = (e, setSelectedImage) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(e.target.files[0]);
-    reader.onload = () => {
-        setSelectedImage(reader.result)
-    }
-    reader.onerror = (error) => {
-        console.log(error)
-    }
-
-};
 
 
 export const resetStore = (dispatch) => {
-    dispatch(setSaleToStore([]))
-    dispatch(setProduct([]))
+    dispatch(setTenders([]))
     dispatch(logOut())
 
 }
@@ -182,3 +169,19 @@ export const handleDownloadPDF = (startDate,endDate) => {
         console.error('Error generating PDF:', error);
     }
 };
+
+
+export function openPdfInNewPage(pdfData) {
+    try{
+        // Encode the PDF data as base64 if necessary (assuming it's not already base64 encoded)
+        const base64Data = pdfData.startsWith('JVBERi0') ? pdfData : btoa(pdfData);
+        const url = `data:application/pdf;base64,${base64Data}`; // Construct data URL for the PDF
+
+        // Open the data URL in a new window
+        window.open(url, '_blank');
+
+    }catch(err){
+        console.error(err)
+    }
+   
+}

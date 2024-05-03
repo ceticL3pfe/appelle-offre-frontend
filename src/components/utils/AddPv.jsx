@@ -22,16 +22,20 @@ import {
   Close as CloseIcon,
 } from "@mui/icons-material"; // Importing icons
 
-import { useAddCdcMutation } from "../../app/api/apiSlice";
+import {
+  useAddAoReponseMutation,
+  useAddPvClientMutation,
+} from "../../app/api/apiSlice";
 import CustomCircularPogress from "./CircularProgress";
 import CustomDialog from "./CustomDialog";
-import { useDispatch, useSelector } from "react-redux";
-import { selectTenders, setTenders } from "../../features/tenders/tender";
+import { useDispatch } from "react-redux";
+import { setTenders } from "../../features/tenders/tender";
 
-function AddCdc({ isOpen, setIsOpen,tenderId}) {
-const tenders = useSelector(selectTenders)
+function AddPvClient({ isOpen, setIsOpen, tenderId, }) {
   const dispatch = useDispatch()
-  const [addCdc, addCdcResult] = useAddCdcMutation();
+
+
+  const [addCdc, addCdcResult] = useAddPvClientMutation();
 
   const [progress, setProgress] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
@@ -40,7 +44,6 @@ const tenders = useSelector(selectTenders)
   const [dialogMessage, setDialogMessage] = useState("");
   const [dialogType, setDialogType] = useState("");
   const [formData, setFormData] = useState({
-  
     file: null, // New file field
   });
 
@@ -54,7 +57,6 @@ const tenders = useSelector(selectTenders)
 
   useEffect(() => {
     if (
-     
       formData.file // Check file field
     ) {
       setIsDisabled(false);
@@ -70,17 +72,15 @@ const tenders = useSelector(selectTenders)
       setDialogType("failed");
       setIsOpen(true);
     } else if (addCdcResult.status === "fulfilled") {
-           
-             const filteredItems = tenders.map((tender) => {
-               if (tender._id === tenderId) {
-                 return addCdcResult.data.msg;
-               }
-               return tender;
-             });
-             dispatch(setTenders(filteredItems));
+        dispatch(setTenders((prevTenders) => {
+        return prevTenders.map((tender) => {
+          if (tender._id === tenderId) {
+            return addCdcResult.data.msg;
+          }
+          return tender;
+        });
+      }));
 
-             setProgress(false);
-             handleClose();
       setProgress(false);
       handleClose();
     } else if (addCdcResult.status === "pending") {
@@ -102,15 +102,13 @@ const tenders = useSelector(selectTenders)
     });
   };
 
-  
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await addCdc({tenderId,data:formData});
+    await addCdc({ tenderId, data: formData });
   };
 
   const handleClose = () => {
     setFormData({
-     
       file: null, // Reset file field
     });
     setIsDisabled(true);
@@ -119,13 +117,12 @@ const tenders = useSelector(selectTenders)
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle id="dialog-title">Add CDC</DialogTitle>
+      <DialogTitle id="dialog-title">Ajouter Pv Client</DialogTitle>
 
       <Box>
         <DialogContent>
           <form encType="multipart/form-data">
             <Box sx={{ display: "flex", flexDirection: "column" }}>
-           
               <Input
                 type="file"
                 onChange={handleFileChange}
@@ -148,4 +145,4 @@ const tenders = useSelector(selectTenders)
   );
 }
 
-export default AddCdc;
+export default AddPvClient;

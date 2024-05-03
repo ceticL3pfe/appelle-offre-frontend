@@ -1,23 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import { AddItemButton, BoxHeader, Wrapper } from './styles';
+import { useNavigate } from 'react-router-dom';
+import { Wrapper } from './styles';
 import { Box, Button, Card, CardActions, CardContent, CardMedia, Grid, IconButton, InputBase, OutlinedInput, Paper, Stack, TextField, Typography } from '@mui/material';
 import { theme } from '../theme';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { useSelector } from 'react-redux';
 import CustomCircularPogress from '../utils/CircularProgress';
-import { selectUser } from '../../features/users/userSlice';
-import { useGetCdcsMutation, useGetTenderNoticeMutation } from '../../app/api/apiSlice';
-import DeleteItemDialog from '../utils/DeleteItemDialog';
-import EditItemDialog from '../utils/EditItemDialog';
+import { selectToken, selectUser } from '../../features/users/userSlice';
+import { useGetCdcsMutation, useGetCdcMutation } from '../../app/api/apiSlice';
 import AddCdc from '../utils/AddCdc';
-
+import DeleteCdcDialog from '../utils/DeleteCdcDialog';
+import EditCdcDialog from '../utils/EditCdcDialog';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 
 function CdcList() {
+    const navigate = useNavigate();
 
-const [cdc,setCdc] = useState([]);
+    const token = useSelector(selectToken)
+
+
+    const [cdc, setCdc] = useState([]);
 
     const [selectedItem, setSelectedItem] = useState(null)
+    const [selectedFile, setSelectedFile] = useState(null)
     const [itemToUpdate, setItemToUpdate] = useState(null)
     const [dialogAddItem, setDialogAddItem] = useState(false)
     const [dialogEditItem, setDialogEditItem] = useState(false)
@@ -32,8 +39,10 @@ const [cdc,setCdc] = useState([]);
 
 
     const [getCdcs, getCdcsResult] = useGetCdcsMutation()
+    const [getCdcData, getCdcDataResult] = useGetCdcMutation()
 
     const [itemIdToDelete, setItemIdToDelete] = useState(null)
+    const [documentIdToDelete, setDocumentToDelete] = useState(null)
 
     const user = useSelector(selectUser)
 
@@ -41,6 +50,8 @@ const [cdc,setCdc] = useState([]);
         (async () => {
             const rep = await getCdcs();
         })();
+
+        setSelectedFile(null)
     }, []);
 
 
@@ -53,6 +64,7 @@ const [cdc,setCdc] = useState([]);
             setProgress(false)
 
             setCdc(getCdcsResult.data.msg)
+            console.log(getCdcsResult.data.msg)
 
 
         } else if (getCdcsResult.status === 'pending') {
@@ -63,6 +75,39 @@ const [cdc,setCdc] = useState([]);
     }, [getCdcsResult])
 
 
+    useEffect(() => {
+        if (getCdcDataResult.status === 'fulfilled') {
+            setProgress(false)
+            const pdfData = getCdcDataResult.data.msg
+            // console.log(pdfData.toString('base64'))
+            // const dataUrl = `data:application/pdf;base64,${pdfData.toString('base64')}`;
+            window.open(pdfData, '_blank');
+
+            // Open the PDF in the default browser's PDF viewer
+
+        }
+        else if (getCdcDataResult.status === 'rejected') {
+            if (getCdcDataResult.error.originalStatus === 200) {
+                //     // Create a data URL for PDF content
+
+
+                //     // openPdfInNewPage(getCdcDataResult.error.data);
+
+                // }
+                setProgress(false)
+
+                console.log('failed to load cdcs from server')
+            }
+
+            else if (getCdcDataResult.status === 'pending') {
+                setProgress(true)
+
+            }
+        }
+    }
+        , [getCdcDataResult])
+
+
 
     const handleInputChange = (e) => {
         setInputText(e.target.value.toLowerCase());
@@ -71,8 +116,8 @@ const [cdc,setCdc] = useState([]);
 
     };
     useEffect(() => {
-        console.log(cdc)
-    }, [cdc])
+        console.log(selectedFile)
+    }, [selectedFile])
 
 
     return (
@@ -96,6 +141,33 @@ const [cdc,setCdc] = useState([]);
                             }}>
                                 <EditIcon />
                             </IconButton> : null}
+                            <IconButton sx={{ position: "sticky" }} data-file-id={item.fileId}
+                                onClick={async (e) => {
+                                    window.open(`http://localhost:5000/cdc/cdc-data/${e.currentTarget.dataset.fileId}/${token}`, '_blank',)
+
+                                }}>
+                                <AttachFileIcon />
+                            </IconButton>
+                            <IconButton sx={{ position: "sticky" }}
+                                data-id={item.fileId}
+                                data-name={item.name}
+                                data-client={item.client}
+                                data-deadLine={item.deadLine}
+                                data-description={item.description}
+                                data-controlleurComments={["adasd","asdasdasd"]}
+                                data-commissionComments={item.commissionComment}
+                                onClick={(e) => {
+                                    const { id, name, client, deadLine, description, controlleurComment, commissionComment } = e.currentTarget.dataset
+                                    console.log(e.currentTarget.dataset)
+                                    console.log("item", { id, name, client, deadLine, description, controlleurComment, commissionComment })
+                                    navigate('/cdc/single', 
+                                        { state: { id, name, client, deadline: deadLine, description, controlleurComment, commissionComment } });
+
+
+
+                                }}>
+                                <OpenInFullIcon />
+                            </IconButton>
 
                             <CardContent>
                                 <Typography color={'black'} variant="h6">name: {item.name}</Typography>
@@ -107,10 +179,11 @@ const [cdc,setCdc] = useState([]);
                             </CardContent>
                             <CardActions>
                                 {user?.role === 'agentTc' ?
-                                    <IconButton data-item-id={item._id} onClick={(e) => {
+                                    <IconButton data-item-id={item._id} data-document-id={item.fileId} onClick={(e) => {
                                         const itemId = e.currentTarget.dataset.itemId;
-                                        console.log("itemId::::", itemId)
+                                        const documentId = e.currentTarget.dataset.documentId;
                                         setItemIdToDelete(itemId)
+                                        setDocumentToDelete(documentId)
                                         setDialogRemoveItem(true);
 
 
@@ -125,8 +198,8 @@ const [cdc,setCdc] = useState([]);
                 ))}
             </Grid>
             <AddCdc isOpen={isOpen} setIsOpen={setIsOpen} cdcs={cdc} setCdcs={setCdc} />
-            {/* <DeleteItemDialog setItems={setTenders} productId={itemIdToDelete} isOpen={dialogRemoveItem} setIsOpen={setDialogRemoveItem} /> */}
-            {/* <EditItemDialog items={tenders} itemId={selectedItem} setItems={setTenders} productId={itemIdToDelete} isOpen={dialogEditItem} setIsOpen={setDialogEditItem} /> */}
+            <DeleteCdcDialog setItems={setCdc} itemId={itemIdToDelete} documentId={documentIdToDelete} isOpen={dialogRemoveItem} setIsOpen={setDialogRemoveItem} />
+            <EditCdcDialog items={cdc} itemId={selectedItem} setItems={setCdc} isOpen={dialogEditItem} setIsOpen={setDialogEditItem} />
             {/* {/* <CustomDialog message={dialogMessage} isOpen={isOpen} type={dialogType} setIsOpen={setIsOpen} /> */}
             {progress ? <CustomCircularPogress
             /> : null}

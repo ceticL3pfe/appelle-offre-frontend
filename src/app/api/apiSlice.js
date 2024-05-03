@@ -9,9 +9,10 @@ export const apiSlice = createApi({
         prepareHeaders: (headers, { getState }) => {
 
             const token = selectToken(getState())// Get the token from the Redux store
-
+console.log(token)
             if (token) {
-                headers.set('token', `${token}`);
+                
+                headers.set('Authorization',`Bearer ${token}`);
             }
             return headers;
 
@@ -131,27 +132,23 @@ export const apiSlice = createApi({
 
         // CDC
 
-        updateCdc: builder.mutation({
-            query: ({ id, data }) => ({
+        editCdc: builder.mutation({
+            query: ({ id, data }) =>{ 
+                return({
                 url: `cdc/${id}`,
                 method: 'PUT',
                 body: data
-            })
+            })}
         }),
 
         //ADD FILE
         addCdc: builder.mutation({
-            query: (data) => {
-                console.log(data)
+            query: ({tenderId,data}) => {
+                console.log("tenderId,data", tenderId, data)
                 const formData = new FormData();
-                formData.append('name', data.name);
                 formData.append('file', data.file);
-                formData.append('deadLine', data.deadLine);
-                formData.append('client', data.description);
-                formData.append('description', data.client);
-
                 return {
-                    url: 'cdc/',
+                    url: `cdc/${tenderId}`,
                     method: 'POST',
                     body: formData,
 
@@ -160,11 +157,16 @@ export const apiSlice = createApi({
         }),
 
         //
-        removeCdc: builder.mutation({
-            query: (id) => ({
-                url: `cdc/${id}`,
+        deleteCdc: builder.mutation({
+            query: (data) =>{ 
+                console.log(data)
+                console.log("id",data.itemId)
+                console.log("documentId", data.documentId)
+                
+                return({
+                    url: `cdc/${data.itemId}/${data.documentId}`,
                 method: 'DELETE',
-            })
+            })}
         }),
         getCdcs: builder.mutation({
             query: () => ({
@@ -176,43 +178,92 @@ export const apiSlice = createApi({
         // GET FILE DATA
         getCdc: builder.mutation({
             query: (id) => ({
+                url: `aoReponse/ao-response-data/${id}`,
+                method: 'GET',
+            })
+        }),
+
+        
+ 
+
+        //ADD FILE
+        addAoReponse: builder.mutation({
+            query: ({tenderId,data}) => {
+                console.log("tenderId,data", tenderId, data)
+                const formData = new FormData();
+                formData.append('file', data.file);
+                return {
+                    url: `aoReponse/${tenderId}`,
+                    method: 'POST',
+                    body: formData,
+
+                };
+            },
+        }),
+
+        //
+        deleteAoReponse: builder.mutation({
+            query: (data) =>{ 
+                console.log(data)
+                console.log("id",data.itemId)
+        
+                
+                return({
+                    url: `aoReponse/${data.itemId}/${data.documentId}`,
+                method: 'DELETE',
+            })}
+        }),
+
+
+        // GET FILE DATA
+        getAoReponse: builder.mutation({
+            query: (id) => ({
                 url: `cdc/cdc-data/${id}`,
                 method: 'GET',
             })
         }),
 
+        
+        //ADD FILE
+        addPvClient: builder.mutation({
+            query: ({tenderId,data}) => {
+                console.log("tenderId,data", tenderId, data)
+                const formData = new FormData();
+                formData.append('file', data.file);
+                return {
+                    url: `pvClient/${tenderId}`,
+                    method: 'POST',
+                    body: formData,
 
-
-        ////////////////////////////////////////////
-        getSales: builder.mutation({
-            query: () => ({
-                url: 'sale',
-                method: 'GET'
-            })
+                };
+            },
         }),
-        updateSale: builder.mutation({
-            query: ({ saleId, data }) => ({
-                url: `sale/updatetSale/${saleId}`,
-                method: 'PUT',
-                body: data
-            })
-        }),
-        addSale: builder.mutation({
-            query: (data) => ({
-                url: 'sale/addSale',
-                method: 'POST',
-                body: data,
 
-            })
-        },
-        ),
-        removeSale: builder.mutation({
-            query: ({ sales }) => ({
-                url: `sale/removeSale`,
+        //
+        deletePvClient: builder.mutation({
+            query: (data) =>{ 
+                console.log(data)
+                console.log("id",data.itemId)
+        
+                
+                return({
+                    url: `pvClient/${data.itemId}/${data.documentId}`,
                 method: 'DELETE',
-                body: { saleIds: sales }
+            })}
+        }),
+
+
+        // GET FILE DATA
+        getPvClient: builder.mutation({
+            query: (id) => ({
+                url: `pvClient/client-pv-data/${id}`,
+                method: 'GET',
             })
         }),
+
+        
+
+
 
     })
 
@@ -232,18 +283,12 @@ export const { useRegisterUserMutation,
     useGetCdcMutation,
     useGetCdcsMutation,
 
-    // useGetProtectionMutation,
-    // useSignOutUserMutation,
-    // useGetUserQuery,
-    // useAddProductMutation,
-    // useGetProductsMutation,
-    // useGetProductMutation,
-    // useUpdateProductMutation,
-    // useRemoveProductMutation,
-    // useAddSaleMutation,
-    // useGetSalesMutation,
-    // useGetSaleMutation,
-    // useUpdateSaleMutation,
-    // useRemoveSaleMutation,
+    useAddAoReponseMutation,
+    useDeleteAoReponseMutation,
+    useGetAoReponseMutation,
+
+    useAddPvClientMutation,
+    useDeletePvClientMutation,
+    useGetPvClientMutation,
 
 } = apiSlice
