@@ -25,6 +25,7 @@ import Comments from '../utils/Comments';
 import ClearIcon from '@mui/icons-material/Clear';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import AddTenderNoticeDialog from '../utils/AddTenderNoticeDialog';
+import TableauComparatif from '../utils/TableauComparatif';
 function TenderNotice({ users, tenders }) {
     const [updateTender, updateTenderResult] = useEditTenderNoticeMutation()
 
@@ -59,8 +60,10 @@ function TenderNotice({ users, tenders }) {
     const [dialogMessage, setDialogMessage] = useState('')
     const [dialogType, setDialogType] = useState('')
     const [inputText, setInputText] = useState('')
+    const [isTabOpen, setIsTabOpen] = useState(false)
+    const [selectedTenderForTab, setSelectedTenderForTab] = useState('')
 
-    let filteredItems=[]
+    let filteredItems = []
 
 
 
@@ -75,8 +78,8 @@ function TenderNotice({ users, tenders }) {
             console.log("error while updating item");
         } else if (updateTenderResult.status === "fulfilled") {
 
-             filteredItems = tenders?.map((item) => {
-                 console.log(item._id, updateTenderResult.data.msg._id)
+            filteredItems = tenders?.map((item) => {
+                console.log(item._id, updateTenderResult.data.msg._id)
                 if (item._id !== updateTenderResult.data.msg._id) {
                     return item;
                 } else {
@@ -116,15 +119,20 @@ function TenderNotice({ users, tenders }) {
                     <Grid item key={index}>
                         <Box sx={{ display: "flex", flexDirection: "row" }}>
                             <Card style={{ flex: '1', width: '200px' }}>
-                                {user?.role === 'agentTc' || user?.role === 'directeur' ? <IconButton sx={{ position: "sticky" }} data-item-id={item._id} onClick={(e) => {
+                                <Stack direction={"row"} spacing={6}>
+                                                                     {user?.role === 'agentTc' || user?.role === 'directeur' ? <IconButton sx={{ position: "sticky" }} data-item-id={item._id} onClick={(e) => {
 
-                                    setSelectedItem(e.currentTarget.dataset.itemId)
-                                    // Add your logic to handle edit action here
-                                    setDialogEditItem(true)
+                                            setSelectedItem(e.currentTarget.dataset.itemId)
+                                            // Add your logic to handle edit action here
+                                            setDialogEditItem(true)
 
-                                }}>
-                                    <EditIcon />
-                                </IconButton> : null}
+                                        }}>
+                                            <EditIcon />
+                                        </IconButton> : null}
+                                    {item.fournisseur_1 ? <Box sx={{ height: "20px", width: "50%", backgroundColor: "warning.main", borderRadius: "30px", textAlign: "center" }}> Externe</Box>
+                                        : null}   
+                                </Stack>
+
 
                                 <CardContent>
                                     <Typography color={'black'} variant="h6">TITLE: {item.object}</Typography>
@@ -265,7 +273,16 @@ function TenderNotice({ users, tenders }) {
                                     }}>
                                         show comments
                                     </Button>
-                                    {user.role!=='agentTc'? <ButtonGroup>
+                                    <Button data-item-id={item._id} onClick={(e) => {
+                                        const itemId = e.currentTarget.dataset.itemId;
+                                        setSelectedTenderForTab(itemId)
+                                        setIsTabOpen(true);
+
+
+                                    }}>
+                                        Tableau compartif
+                                    </Button>
+                                    {user.role !== 'agentTc' ? <ButtonGroup>
                                         <IconButton data-item-id={item._id} onClick={async (e) => {
                                             const itemId = e.currentTarget.dataset.itemId;
                                             await updateTender({ data: { [`${user.role}Response`]: "ok" }, id: itemId })
@@ -294,7 +311,7 @@ function TenderNotice({ users, tenders }) {
                                             <ClearIcon />
 
                                         </IconButton>
-                                    </ButtonGroup> :null}
+                                    </ButtonGroup> : null}
 
 
 
@@ -380,6 +397,7 @@ function TenderNotice({ users, tenders }) {
             <AddComment isOpen={commentOpen} setIsOpen={setAddCommentOpen} itemId={itemToComment} items={tenders} />
             <Comments isOpen={showComments} setIsOpen={setShowComments} itemId={selectedItem} items={tenders} />
 
+            <TableauComparatif tenders={tenders} tenderId={selectedTenderForTab} isOpen={isTabOpen} setIsOpen={setIsTabOpen}/>
             <EditItemDialog users={users} items={tenders} itemId={selectedItem} productId={itemIdToDelete} isOpen={dialogEditItem} setIsOpen={setDialogEditItem} />
             {/* {/* <CustomDialog message={dialogMessage} isOpen={isOpen} type={dialogType} setIsOpen={setIsOpen} /> */}
             {progress ? <CustomCircularPogress

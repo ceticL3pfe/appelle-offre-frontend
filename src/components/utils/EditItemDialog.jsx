@@ -263,6 +263,7 @@ function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
         </FormControl>
         <Stack direction={"row"}>
           <TextField
+            defaultValue={item?.fournisseur_1}
             label={"fournisseur 1"}
             onChange={(e) => {
               if (e.target.value !== "") {
@@ -276,6 +277,7 @@ function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
             value={data.fournisseur_1}
           />
           <TextField
+            defaultValue={item?.prix_fournisseur_1}
             label={"prix"}
             onChange={(e) => {
               if (e.target.value !== "") {
@@ -289,6 +291,7 @@ function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
             value={data.prix_fournisseur_1}
           />
           <TextField
+            defaultValue={item?.durée_fournisseur_1}
             label={"durée"}
             onChange={(e) => {
               if (e.target.value !== "") {
@@ -304,6 +307,7 @@ function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
         </Stack>
         <Stack direction={"row"}>
           <TextField
+            defaultValue={item?.fournisseur_2}
             label={"fournisseur 2"}
             onChange={(e) => {
               if (e.target.value !== "") {
@@ -317,6 +321,7 @@ function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
             value={data.fournisseur_2}
           />
           <TextField
+            defaultValue={item?.prix_fournisseur_2}
             label={"prix"}
             onChange={(e) => {
               if (e.target.value !== "") {
@@ -330,6 +335,7 @@ function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
             value={data.prix_fournisseur_2}
           />
           <TextField
+            defaultValue={item?.durée_fournisseur_2}
             label={"durée"}
             onChange={(e) => {
               if (e.target.value !== "") {
@@ -345,6 +351,7 @@ function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
         </Stack>
         <Stack direction={"row"}>
           <TextField
+            defaultValue={item?.fournisseur_3}
             label={"fournisseur 3"}
             onChange={(e) => {
               if (e.target.value !== "") {
@@ -358,6 +365,7 @@ function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
             value={data.fournisseur_3}
           />
           <TextField
+            defaultValue={item?.prix_fournisseur_3}
             label={"prix"}
             onChange={(e) => {
               if (e.target.value !== "") {
@@ -371,6 +379,7 @@ function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
             value={data.prix_fournisseur_3}
           />
           <TextField
+            defaultValue={item?.durée_fournisseur_3}
             label={"durée"}
             onChange={(e) => {
               if (e.target.value !== "") {

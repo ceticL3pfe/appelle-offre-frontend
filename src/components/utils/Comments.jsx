@@ -37,6 +37,24 @@ function Comments({ items, itemId , isOpen, setIsOpen,}) {
               style={{ padding: "20px", marginBottom: "20px" }}
             >
               <Typography variant="h5" gutterBottom>
+                Directeur Comments
+              </Typography>
+              {
+                selectedItem.directeurComments.map(element => {
+                 return   <Typography variant="body1">
+                      {element}
+                    </Typography>;
+                })
+              }
+              
+            </Paper>
+          )}
+          {selectedItem && (
+            <Paper
+              elevation={3}
+              style={{ padding: "20px", marginBottom: "20px" }}
+            >
+              <Typography variant="h5" gutterBottom>
                 Commission Comments
               </Typography>
               {
