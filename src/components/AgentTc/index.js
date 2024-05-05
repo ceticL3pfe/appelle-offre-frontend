@@ -48,7 +48,7 @@ const tenders = useSelector(selectTenders)
             setProgress(false)
             const userTenders = getTenderResult.data.msg.map((tender) => {
                 // Check if the tender's missionHead matches the user's id
-                if (tender.missionHead === user.username) {
+                if (tender.missionHead === user.username || tender.userId===user._id) {
                     // If the condition is met, return the tender
                     return tender;
                 }
@@ -78,16 +78,12 @@ const tenders = useSelector(selectTenders)
     return (
         <Wrapper>
             <Box width={'100%'}>
-                <Typography variant='h3'>DASHBOARD {user.role}</Typography>
                 <BoxHeader direction={'column'} spacing={1}>
 
-                    <Box >
-                        <Link to={"/admin"}>Admin panel</Link>
-                    </Box>
+                    
                 </BoxHeader>
 
-                {user.role === 'agentTc' ? (<Button variant='contained' color='success' onClick={() => setIsOpen(true)
-                }>Add Tender Notice</Button>) : null}
+             
 
             </Box>
 
@@ -98,7 +94,6 @@ const tenders = useSelector(selectTenders)
 
 
 
-            <AddTenderNoticeDialog isOpen={isOpen} setIsOpen={setIsOpen}/>
 
 
             {progress ? <CustomCircularPogress

@@ -77,6 +77,7 @@ const tenders = useSelector(selectTenders)
                }
                return tender;
              });
+             console.log(filteredItems)
              dispatch(setTenders(filteredItems));
 
              setProgress(false);

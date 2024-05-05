@@ -11,6 +11,7 @@ import AgentTc from './components/AgentTc';
 import Commission from './components/Commission';
 import Cdg from './components/Cdg';
 import NavBar from './components/NavBar';
+import { Box } from '@mui/material';
 
 function App() {
   // Assume userRoles is an array containing the roles of the authenticated user
@@ -37,7 +38,10 @@ function App() {
 
 
   return (
-    <div className="App">
+    <Box className="App" sx={{
+      overflowY: 'hidden',
+      overflowX: 'hidden',
+}}>
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -57,7 +61,7 @@ function App() {
 
         </Routes>
       </Router>
-    </div>
+    </Box>
   );
 }
 

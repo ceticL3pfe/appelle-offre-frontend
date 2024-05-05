@@ -26,8 +26,10 @@ import CustomCircularPogress from "./CircularProgress";
 import CustomDialog from "./CustomDialog";
 import { useDispatch, useSelector } from "react-redux";
 import { selectTenders, setTenders } from "../../features/tenders/tender";
+import { selectUser } from "../../features/users/userSlice";
 
 function AddTenderNoticeDialog({ isOpen, setIsOpen, }) {
+  const user = useSelector(selectUser)
   const tenders = useSelector(selectTenders)
   const dispatch = useDispatch()
   const [addTenderNotice, addTenderNoticeResult] = useAddTenderNoticeMutation();
@@ -43,6 +45,7 @@ function AddTenderNoticeDialog({ isOpen, setIsOpen, }) {
     source: null,
     description: null,
     status: "Pending",
+    userId: user?._id,
   });
 
   useEffect(() => {
@@ -95,6 +98,8 @@ function AddTenderNoticeDialog({ isOpen, setIsOpen, }) {
       source: null,
       description: null,
       status: "Pending",
+          userId:user?._id
+
     });
     setIsDisabled(true);
     setIsOpen(false);

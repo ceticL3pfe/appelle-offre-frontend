@@ -9,10 +9,8 @@ export const Wrapper = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     // minWidth: '100%',
     // height:'fill',
-    backgroundColor: theme.palette.grey[300],
-    overflowY: 'scroll',
+    overflowY: 'hidden',
     overflowX: 'hidden',
-    marginTop: '75px'
 })
 )
 export const BoxHeader = styled(Box)(({ theme }) => ({

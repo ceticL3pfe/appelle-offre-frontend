@@ -7,12 +7,12 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { useDeleteCdcMutation } from "../../app/api/apiSlice";
-import { setTenders } from "../../features/tenders/tender";
-import { useDispatch } from "react-redux";
+import { selectTenders, setTenders } from "../../features/tenders/tender";
+import { useDispatch, useSelector } from "react-redux";
 
 function DeleteCdcDialog({ isOpen, setIsOpen, itemId, documentId }) {
-    const dispatch = useDispatch();
-
+  const dispatch = useDispatch();
+const tenders = useSelector(selectTenders)
   const [open, setOpen] = useState(isOpen);
 
   const [deleteItem, deleteItemResult] = useDeleteCdcMutation();
@@ -31,21 +31,21 @@ function DeleteCdcDialog({ isOpen, setIsOpen, itemId, documentId }) {
     if (deleteItemResult.status === "rejected") {
       console.log("error while adding item");
     } else if (deleteItemResult.status === "fulfilled") {
+      const filteredItems = tenders.map((tender) => {
+        if (tender._id === itemId) {
+          // Modify the tender with the updated information
+          return {
+            ...tender,
+            // Assuming you have a field like 'hasPvClient', you can set it to true
+            cahierCharge: null,
+            // You can modify other fields as needed
+          };
+        }
+        return tender;
+      });
+      console.log(filteredItems);
+      dispatch(setTenders(filteredItems));
 
-        dispatch(setTenders((prevTenders) => {
-        return prevTenders.map((tender) => {
-          if (tender._id === itemId) {
-            // Modify the tender with the updated information
-            return {
-              ...tender,
-              // Assuming you have a field like 'hasPvClient', you can set it to true
-              cahierCharge: null,
-              // You can modify other fields as needed
-            };
-          }
-          return tender;
-        });
-      }));
       console.log("item have been deleted successfully");
       setOpen(false);
       setIsOpen(false);

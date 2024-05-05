@@ -6,12 +6,14 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
-import {  useDeleteTenderNoticeMutation } from "../../app/api/apiSlice";
+import { useDeleteTenderNoticeMutation } from "../../app/api/apiSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectTenders, setTenders } from "../../features/tenders/tender";
 
-
-function DeleteItemDialog({ setItems, isOpen, setIsOpen, productId }) {
+function DeleteItemDialog({ isOpen, setIsOpen, productId }) {
   const [open, setOpen] = useState(isOpen);
-
+  const tenders = useSelector(selectTenders);
+  const dispatch = useDispatch();
   const [deleteItem, deleteItemResult] = useDeleteTenderNoticeMutation();
 
   const handleClose = () => {
@@ -28,12 +30,10 @@ function DeleteItemDialog({ setItems, isOpen, setIsOpen, productId }) {
     if (deleteItemResult.status === "rejected") {
       console.log("error while adding item");
     } else if (deleteItemResult.status === "fulfilled") {
+      const filteredItems = tenders.filter((item) => item._id !== productId);
+      console.log(filteredItems);
+      dispatch(setTenders(filteredItems));
 
-
-      setItems(prev=>{
-      const arr =  prev.filter(item=>item._id!==productId)
-      return arr
-      })
       console.log("item have been added successfully");
       setOpen(false);
       setIsOpen(false);
@@ -41,7 +41,7 @@ function DeleteItemDialog({ setItems, isOpen, setIsOpen, productId }) {
   }, [deleteItemResult]);
 
   const handleDelete = async () => {
-    console.log("productId",productId)
+    console.log("productId", productId);
     await deleteItem(productId);
   };
   const handleCancel = () => {

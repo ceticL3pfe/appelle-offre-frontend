@@ -27,8 +27,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setProduct, setTenders } from "../../features/tenders/tender";
 import { selectUser } from "../../features/users/userSlice";
 
-function EditItemDialog({ users, isOpen, setIsOpen,  itemId, items }) {
-
+function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
   const user = useSelector(selectUser);
   const [open, setOpen] = useState(isOpen);
   const [isDisabled, setIsDisabled] = useState(true);
@@ -41,15 +40,15 @@ function EditItemDialog({ users, isOpen, setIsOpen,  itemId, items }) {
     description: null,
     status: null,
     missionHead: null,
-    fournisseur_1:null,
-    prix_fournisseur_1:null,
-    durée_fournisseur_1:null,
-    fournisseur_2:null,
-    prix_fournisseur_2:null,
-    durée_fournisseur_2:null,
-    fournisseur_3:null,
-    prix_fournisseur_3:null,
-    durée_fournisseur_3:null,
+    fournisseur_1: null,
+    prix_fournisseur_1: null,
+    durée_fournisseur_1: null,
+    fournisseur_2: null,
+    prix_fournisseur_2: null,
+    durée_fournisseur_2: null,
+    fournisseur_3: null,
+    prix_fournisseur_3: null,
+    durée_fournisseur_3: null,
   });
   const dispatch = useDispatch();
   const handleClose = () => {
@@ -75,7 +74,6 @@ function EditItemDialog({ users, isOpen, setIsOpen,  itemId, items }) {
     // setData("");
   };
 
- 
   useEffect(() => {
     setOpen(isOpen);
   }, [isOpen]);
@@ -98,7 +96,7 @@ function EditItemDialog({ users, isOpen, setIsOpen,  itemId, items }) {
         }
       });
       console.log("filtred Items edit", filteredItems);
-     dispatch(setTenders(filteredItems));
+      dispatch(setTenders(filteredItems));
     }
 
     console.log("item have updated successfully");
@@ -117,13 +115,11 @@ function EditItemDialog({ users, isOpen, setIsOpen,  itemId, items }) {
       [field]: event.target.value,
     });
     //   console.log(...data)
-    
   };
 
-
-  useEffect(()=>{
-    console.log(data)
-  },[data])
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   return (
     <Dialog
@@ -224,6 +220,7 @@ function EditItemDialog({ users, isOpen, setIsOpen,  itemId, items }) {
                 setIsDisabled(true);
               }
             }}
+            defaultValue={item?.status}
             value={data.status}
           >
             <MenuItem value={"validation retrait cdc"}>
@@ -270,10 +267,10 @@ function EditItemDialog({ users, isOpen, setIsOpen,  itemId, items }) {
             onChange={(e) => {
               if (e.target.value !== "") {
                 setIsDisabled(false);
-                handleChange("fournisseur_1")(e);
               } else {
                 setIsDisabled(true);
               }
+              handleChange("fournisseur_1")(e);
             }}
             name="fournisseur_1"
             value={data.fournisseur_1}
@@ -283,10 +280,10 @@ function EditItemDialog({ users, isOpen, setIsOpen,  itemId, items }) {
             onChange={(e) => {
               if (e.target.value !== "") {
                 setIsDisabled(false);
-                handleChange("prix_fournisseur_1")(e);
               } else {
                 setIsDisabled(true);
               }
+              handleChange("prix_fournisseur_1")(e);
             }}
             name="prix_fournisseur_1"
             value={data.prix_fournisseur_1}
@@ -296,10 +293,10 @@ function EditItemDialog({ users, isOpen, setIsOpen,  itemId, items }) {
             onChange={(e) => {
               if (e.target.value !== "") {
                 setIsDisabled(false);
-                handleChange("durée_fournisseur_1")(e);
               } else {
                 setIsDisabled(true);
               }
+              handleChange("durée_fournisseur_1")(e);
             }}
             name="durée_fournisseur_1"
             value={data.durée_fournisseur_1}
@@ -311,10 +308,10 @@ function EditItemDialog({ users, isOpen, setIsOpen,  itemId, items }) {
             onChange={(e) => {
               if (e.target.value !== "") {
                 setIsDisabled(false);
-                handleChange("fournisseur_2")(e);
               } else {
                 setIsDisabled(true);
               }
+              handleChange("fournisseur_2")(e);
             }}
             name="fournisseur_2"
             value={data.fournisseur_2}
@@ -324,10 +321,10 @@ function EditItemDialog({ users, isOpen, setIsOpen,  itemId, items }) {
             onChange={(e) => {
               if (e.target.value !== "") {
                 setIsDisabled(false);
-                handleChange("prix_fournisseur_2")(e);
               } else {
                 setIsDisabled(true);
               }
+              handleChange("prix_fournisseur_2")(e);
             }}
             name="prix_fournisseur_2"
             value={data.prix_fournisseur_2}
@@ -337,10 +334,10 @@ function EditItemDialog({ users, isOpen, setIsOpen,  itemId, items }) {
             onChange={(e) => {
               if (e.target.value !== "") {
                 setIsDisabled(false);
-                handleChange("durée_fournisseur_2")(e);
               } else {
                 setIsDisabled(true);
               }
+              handleChange("durée_fournisseur_2")(e);
             }}
             name="durée_fournisseur_2"
             value={data.durée_fournisseur_2}
@@ -352,10 +349,10 @@ function EditItemDialog({ users, isOpen, setIsOpen,  itemId, items }) {
             onChange={(e) => {
               if (e.target.value !== "") {
                 setIsDisabled(false);
-                handleChange("fournisseur_3")(e);
               } else {
                 setIsDisabled(true);
               }
+              handleChange("fournisseur_3")(e);
             }}
             name="fournisseur_3"
             value={data.fournisseur_3}
@@ -365,10 +362,10 @@ function EditItemDialog({ users, isOpen, setIsOpen,  itemId, items }) {
             onChange={(e) => {
               if (e.target.value !== "") {
                 setIsDisabled(false);
-                handleChange("prix_fournisseur_3")(e);
               } else {
                 setIsDisabled(true);
               }
+              handleChange("prix_fournisseur_3")(e);
             }}
             name="prix_fournisseur_3"
             value={data.prix_fournisseur_3}
@@ -378,10 +375,10 @@ function EditItemDialog({ users, isOpen, setIsOpen,  itemId, items }) {
             onChange={(e) => {
               if (e.target.value !== "") {
                 setIsDisabled(false);
-                handleChange("durée_fournisseur_3")(e);
               } else {
                 setIsDisabled(true);
               }
+              handleChange("durée_fournisseur_3")(e);
             }}
             name="durée_fournisseur_3"
             value={data.durée_fournisseur_3}

@@ -24,8 +24,8 @@ import { AddCommentRounded } from '@mui/icons-material';
 import Comments from '../utils/Comments';
 import ClearIcon from '@mui/icons-material/Clear';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
+import AddTenderNoticeDialog from '../utils/AddTenderNoticeDialog';
 function TenderNotice({ users, tenders }) {
-
     const [updateTender, updateTenderResult] = useEditTenderNoticeMutation()
 
     const dispatch = useDispatch()
@@ -52,6 +52,7 @@ function TenderNotice({ users, tenders }) {
     const [dialogEditItem, setDialogEditItem] = useState(false)
     const [dialogRemoveItem, setDialogRemoveItem] = useState(false)
     const [isOpen, setIsOpen] = useState(false)
+    const [isTOpen, setIsTOpen] = useState(false)
     const [cdcOpen, setCdcOpen] = useState(false)
     const [aoOpen, setAoOpen] = useState(false)
     const [progress, setProgress] = useState(false)
@@ -107,6 +108,8 @@ function TenderNotice({ users, tenders }) {
 
                 <TextField label='Search Item' placeholder='Search item' type='text' value={inputText} onChange={handleInputChange} />
             </Box>
+            {user.role === 'agentTc' ? (<Button variant='contained' color='success' onClick={() => setIsTOpen(true)
+            }>Add Tender Notice</Button>) : null}
 
             <Grid container sx={{ justifyContent: 'center', width: "100%" }} spacing={2} marginTop={'10px'}>
                 {tenders.map((item, index) => (
@@ -262,7 +265,7 @@ function TenderNotice({ users, tenders }) {
                                     }}>
                                         show comments
                                     </Button>
-                                    <ButtonGroup>
+                                    {user.role!=='agentTc'? <ButtonGroup>
                                         <IconButton data-item-id={item._id} onClick={async (e) => {
                                             const itemId = e.currentTarget.dataset.itemId;
                                             await updateTender({ data: { [`${user.role}Response`]: "ok" }, id: itemId })
@@ -291,7 +294,7 @@ function TenderNotice({ users, tenders }) {
                                             <ClearIcon />
 
                                         </IconButton>
-                                    </ButtonGroup>
+                                    </ButtonGroup> :null}
 
 
 
@@ -362,6 +365,7 @@ function TenderNotice({ users, tenders }) {
                 ))}
             </Grid>
 
+            <AddTenderNoticeDialog isOpen={isTOpen} setIsOpen={setIsTOpen} />
 
             <AddAoReponse isOpen={aoOpen} setIsOpen={setAoOpen} tenderId={tenderId} />
             <AddCdc isOpen={cdcOpen} setIsOpen={setCdcOpen} tenderId={tenderId} />

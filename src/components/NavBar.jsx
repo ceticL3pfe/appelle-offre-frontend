@@ -1,9 +1,9 @@
-import { styled, Stack, IconButton, Avatar, AppBar } from "@mui/material";
+import { styled, Stack, IconButton, Avatar, AppBar ,Typography, Box} from "@mui/material";
 import React from "react";
 import {Article, Chat, Group, History, Home, Inventory, Logout} from "@mui/icons-material";
 import { logOut, selectUser } from "../features/users/userSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate ,useParams} from "react-router-dom";
+import { Link, useNavigate ,useParams} from "react-router-dom";
 function NavBar() {
   const navigate = useNavigate()
   const user = useSelector(selectUser);
@@ -80,6 +80,10 @@ function NavBar() {
       <StyledIconButton color="white" onClick={handleLogoutClick}>
         <Logout />
       </StyledIconButton>
+      <Typography variant="h4">DASHBOARD {user.role}</Typography>
+      <Box>
+        <Link to={"/admin"}>Admin panel</Link>
+      </Box>
     </StyledNavbar>
   );
 }

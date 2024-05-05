@@ -7,11 +7,12 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { useDeleteAoReponseMutation,  } from "../../app/api/apiSlice";
-import { useDispatch } from "react-redux";
-import { setTenders } from "../../features/tenders/tender";
+import { useDispatch, useSelector } from "react-redux";
+import { selectTenders, setTenders } from "../../features/tenders/tender";
 
 function DeleteAoResponseDialog({ isOpen, setIsOpen, itemId, documentId, }) {
     const dispatch = useDispatch();
+    const tenders = useSelector(selectTenders)
 
   const [open, setOpen] = useState(isOpen);
 
@@ -33,8 +34,7 @@ function DeleteAoResponseDialog({ isOpen, setIsOpen, itemId, documentId, }) {
     } else if (deleteItemResult.status === "fulfilled") {
 
 
-        dispatch(setTenders((prevTenders) => {
-        return prevTenders.map((tender) => {
+        const filteredItems = tenders.map((tender) => {
           if (tender._id === itemId) {
             // Modify the tender with the updated information
             return {
@@ -46,7 +46,8 @@ function DeleteAoResponseDialog({ isOpen, setIsOpen, itemId, documentId, }) {
           }
           return tender;
         });
-      }));
+        console.log(filteredItems);
+        dispatch(setTenders(filteredItems));
       console.log("item have been deleted successfully");
       setOpen(false);
       setIsOpen(false);

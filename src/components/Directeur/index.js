@@ -24,6 +24,7 @@ function Directeur() {
     const [getTender, getTenderResult] = useGetTenderNoticeMutation()
 
     const [demandeCdc, setDemandeCdc] = useState(false)
+    const [ToutAo, setToutAo] = useState(true)
 
     const [isOpen, setIsOpen] = useState(false)
     const [progress, setProgress] = useState(false)
@@ -33,11 +34,11 @@ function Directeur() {
     const user = useSelector(selectUser)
 
 
-    useEffect(()=>{
-    setCurrentItems(tenders)
-    },[tenders])
+    useEffect(() => {
+        setCurrentItems(tenders)
+    }, [tenders])
 
-useEffect(()=>{console.log("tenders",tenders)},[tenders])
+    useEffect(() => { console.log("tenders", tenders) }, [tenders])
     useEffect(() => {
 
         if (getTenderResult.status === 'rejected') {
@@ -95,35 +96,38 @@ useEffect(()=>{console.log("tenders",tenders)},[tenders])
     }, [getUsersResult])
 
     useEffect(() => {
-        let newTenders=[]
-        
+        let newTenders = []
+
         if (demandeCdc) {
-         
-                newTenders =   tenders.map((tender) => {
-                    if (tender.status === "validation retrait cdc") {
-                        return tender
-                    }
-                    return null;
-                }).filter(tender => tender !== null);
 
-            }
+            newTenders = tenders.map((tender) => {
+                if (tender.status === "validation retrait cdc") {
+                    return tender
+                }
+                return null;
+            }).filter(tender => tender !== null);
 
-            
+        }
 
-         else {
+
+
+        else if (!ToutAo) {
             newTenders = tenders.map((tender) => {
                 if (tender.status === "validation dossier de reponse") {
                     return tender
                 }
                 return null;
             }).filter(tender => tender !== null);
-         
+
+        } else {
+            newTenders = tenders
+
         }
 
 
         setCurrentItems(newTenders)
 
-    }, [demandeCdc,tenders])
+    }, [demandeCdc, tenders,ToutAo])
 
 
 
@@ -132,29 +136,33 @@ useEffect(()=>{console.log("tenders",tenders)},[tenders])
 
     return (
         <Wrapper>
-            <Box width={'100%'}>
-                <Typography variant='h3'>DASHBOARD {user.role}</Typography>
-                <BoxHeader direction={'column'} spacing={1}>
-
+            <Stack width={'100%'} justifyContent={'center'}  alignItems={"center"}>
+             
                     <ButtonGroup>
                         <Button variant='outlined' onClick={(e) => {
-                            
+
                             setDemandeCdc(true)
+                            setToutAo(false)
 
                         }}>Demande retrait de Cdc</Button>
                         <Button variant='outlined' onClick={(e) => {
                             setDemandeCdc(false)
+                            setToutAo(false)
 
                         }}>Demande de validation de dossier de reposne</Button>
+                        <Button variant='outlined' onClick={(e) => {
+                            setDemandeCdc(false)
+                            setToutAo(true)
+
+                        }}>Tous les appels d'offres </Button>
                     </ButtonGroup>
-                </BoxHeader>
 
 
-            </Box>
+            </Stack>
 
 
 
-            <TenderNotice users={users} tenders={currentItems}  />
+            <TenderNotice users={users} tenders={currentItems} />
 
 
 

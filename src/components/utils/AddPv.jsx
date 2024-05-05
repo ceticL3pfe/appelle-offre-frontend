@@ -28,12 +28,12 @@ import {
 } from "../../app/api/apiSlice";
 import CustomCircularPogress from "./CircularProgress";
 import CustomDialog from "./CustomDialog";
-import { useDispatch } from "react-redux";
-import { setTenders } from "../../features/tenders/tender";
+import { useDispatch, useSelector } from "react-redux";
+import { selectTenders, setTenders } from "../../features/tenders/tender";
 
 function AddPvClient({ isOpen, setIsOpen, tenderId, }) {
   const dispatch = useDispatch()
-
+const tenders = useSelector(selectTenders)
 
   const [addCdc, addCdcResult] = useAddPvClientMutation();
 
@@ -72,14 +72,15 @@ function AddPvClient({ isOpen, setIsOpen, tenderId, }) {
       setDialogType("failed");
       setIsOpen(true);
     } else if (addCdcResult.status === "fulfilled") {
-        dispatch(setTenders((prevTenders) => {
-        return prevTenders.map((tender) => {
-          if (tender._id === tenderId) {
-            return addCdcResult.data.msg;
-          }
-          return tender;
-        });
-      }));
+      const filteredItems = tenders.map((tender) => {
+        if (tender._id === tenderId) {
+          return addCdcResult.data.msg;
+        }
+        return tender;
+      });
+      console.log(filteredItems);
+      dispatch(setTenders(filteredItems));
+      
 
       setProgress(false);
       handleClose();

@@ -3,11 +3,11 @@ import { Box, Paper, Stack, styled } from "@mui/material";
 export const Wrapper = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'start',
-    alignItems: 'start',
+    justifyContent: 'center',
+    alignItems: 'center',
     width: '100%',
     height: '100vh',
-    backgroundColor:theme.palette.primary.light,
+    backgroundColor:theme.palette.grey[300],
     marginTop:'75px'
 })
 )
