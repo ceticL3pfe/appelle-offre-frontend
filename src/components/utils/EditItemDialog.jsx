@@ -13,6 +13,7 @@ import {
   InputLabel,
   IconButton,
   Stack,
+  Checkbox,
 } from "@mui/material";
 
 import {
@@ -28,12 +29,14 @@ import { setProduct, setTenders } from "../../features/tenders/tender";
 import { selectUser } from "../../features/users/userSlice";
 
 function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
+
   const user = useSelector(selectUser);
   const [open, setOpen] = useState(isOpen);
   const [isDisabled, setIsDisabled] = useState(true);
   const [tcagents, setTcAgents] = useState([]);
   const [updateItem, updateItemResult] = useEditTenderNoticeMutation();
   const [item, setItem] = useState(null);
+  const [fournisseurChecked, setFournisseurChecked] = useState(false);
   const [data, setData] = useState({
     object: null,
     source: null,
@@ -67,12 +70,14 @@ function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
       fournisseur_3: null,
       prix_fournisseur_3: null,
       durée_fournisseur_3: null,
+      selectedFournisseur:null
     });
     setIsDisabled(true);
     setOpen(false);
     setIsOpen(false);
     // setData("");
   };
+
 
   useEffect(() => {
     setOpen(isOpen);
@@ -116,6 +121,16 @@ function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
     });
     //   console.log(...data)
   };
+const handleFournisseurCheck = (event, fournisseurName) => {
+  console.log(fournisseurName);
+  setData({
+    ...data,
+    ["selectedFournisseur"]: fournisseurName,
+  });
+      setIsDisabled(false);
+
+};
+
 
   useEffect(() => {
     console.log(data);
@@ -304,6 +319,11 @@ function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
             name="durée_fournisseur_1"
             value={data.durée_fournisseur_1}
           />
+          <Checkbox
+            defaultChecked={item?.selectedFournisseur === "fournisseur_1"}
+            data-fournisseur={"fournisseur_1"}
+            onChange={(e) => handleFournisseurCheck(e, "fournisseur_1")}
+          />
         </Stack>
         <Stack direction={"row"}>
           <TextField
@@ -348,6 +368,10 @@ function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
             name="durée_fournisseur_2"
             value={data.durée_fournisseur_2}
           />
+          <Checkbox
+            defaultChecked={item?.selectedFournisseur === "fournisseur_2"}
+            onChange={(e) => handleFournisseurCheck(e, "fournisseur_2")}
+          />
         </Stack>
         <Stack direction={"row"}>
           <TextField
@@ -391,6 +415,10 @@ function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
             }}
             name="durée_fournisseur_3"
             value={data.durée_fournisseur_3}
+          />
+          <Checkbox
+            defaultChecked={item?.selectedFournisseur === "fournisseur_3"}
+            onChange={(e) => handleFournisseurCheck(e, "fournisseur_3")}
           />
         </Stack>
       </DialogContent>

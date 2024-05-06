@@ -9,10 +9,10 @@ export const apiSlice = createApi({
         prepareHeaders: (headers, { getState }) => {
 
             const token = selectToken(getState())// Get the token from the Redux store
-console.log(token)
+            console.log(token)
             if (token) {
-                
-                headers.set('Authorization',`Bearer ${token}`);
+
+                headers.set('Authorization', `Bearer ${token}`);
             }
             return headers;
 
@@ -99,6 +99,19 @@ console.log(token)
                 method: 'GET'
             })
         }),
+
+        
+        getTenderNoticeArchive: builder.mutation({
+            query: () => ({
+                url: 'tenderNotice/archive',
+                method: 'GET'
+            })
+        }),
+
+        
+
+
+
         addTenderNotice: builder.mutation({
             query: (data) => ({
                 url: 'tenderNotice/',
@@ -133,17 +146,18 @@ console.log(token)
         // CDC
 
         editCdc: builder.mutation({
-            query: ({ id, data }) =>{ 
-                return({
-                url: `cdc/${id}`,
-                method: 'PUT',
-                body: data
-            })}
+            query: ({ id, data }) => {
+                return ({
+                    url: `cdc/${id}`,
+                    method: 'PUT',
+                    body: data
+                })
+            }
         }),
 
         //ADD FILE
         addCdc: builder.mutation({
-            query: ({tenderId,data}) => {
+            query: ({ tenderId, data }) => {
                 console.log("tenderId,data", tenderId, data)
                 const formData = new FormData();
                 formData.append('file', data.file);
@@ -158,15 +172,16 @@ console.log(token)
 
         //
         deleteCdc: builder.mutation({
-            query: (data) =>{ 
+            query: (data) => {
                 console.log(data)
-                console.log("id",data.itemId)
+                console.log("id", data.itemId)
                 console.log("documentId", data.documentId)
-                
-                return({
+
+                return ({
                     url: `cdc/${data.itemId}/${data.documentId}`,
-                method: 'DELETE',
-            })}
+                    method: 'DELETE',
+                })
+            }
         }),
         getCdcs: builder.mutation({
             query: () => ({
@@ -183,12 +198,12 @@ console.log(token)
             })
         }),
 
-        
- 
+
+
 
         //ADD FILE
         addAoReponse: builder.mutation({
-            query: ({tenderId,data}) => {
+            query: ({ tenderId, data }) => {
                 console.log("tenderId,data", tenderId, data)
                 const formData = new FormData();
                 formData.append('file', data.file);
@@ -203,15 +218,16 @@ console.log(token)
 
         //
         deleteAoReponse: builder.mutation({
-            query: (data) =>{ 
+            query: (data) => {
                 console.log(data)
-                console.log("id",data.itemId)
-        
-                
-                return({
+                console.log("id", data.itemId)
+
+
+                return ({
                     url: `aoReponse/${data.itemId}/${data.documentId}`,
-                method: 'DELETE',
-            })}
+                    method: 'DELETE',
+                })
+            }
         }),
 
 
@@ -223,10 +239,10 @@ console.log(token)
             })
         }),
 
-        
+
         //ADD FILE
         addPvClient: builder.mutation({
-            query: ({tenderId,data}) => {
+            query: ({ tenderId, data }) => {
                 console.log("tenderId,data", tenderId, data)
                 const formData = new FormData();
                 formData.append('file', data.file);
@@ -241,15 +257,16 @@ console.log(token)
 
         //
         deletePvClient: builder.mutation({
-            query: (data) =>{ 
+            query: (data) => {
                 console.log(data)
-                console.log("id",data.itemId)
-        
-                
-                return({
+                console.log("id", data.itemId)
+
+
+                return ({
                     url: `pvClient/${data.itemId}/${data.documentId}`,
-                method: 'DELETE',
-            })}
+                    method: 'DELETE',
+                })
+            }
         }),
 
 
@@ -261,7 +278,74 @@ console.log(token)
             })
         }),
 
-        
+        // Clients
+        getClients: builder.mutation({
+            query: () => ({
+                url: `client/`,
+                method: 'GET',
+            })
+        }),
+
+        deleteClient: builder.mutation({
+            query: (id) => ({
+                url: `client/:id`,
+                method: 'DELETE',
+            })
+        }),
+        editeClient: builder.mutation({
+            query: ({ data, id }) => {
+
+
+                return ({
+                    url: `client/${id}`,
+                    method: 'PUT',
+                    body: data,
+
+                })
+            }
+        }),
+        addClient: builder.mutation({
+            query: (data) => ({
+                url: 'client/',
+                method: 'POST',
+                body: data,
+
+            })
+        }),
+
+
+
+        // fournisseur
+        getFournisseurs: builder.mutation({
+            query: () => ({
+                url: `fournisseur/`,
+                method: 'GET',
+            })
+        }),
+
+        deleteFournisseur: builder.mutation({
+            query: (id) => ({
+                url: `fournisseur/:id`,
+                method: 'DELETE',
+            })
+        }),
+
+        addFournisseur: builder.mutation({
+            query: (data) => ({
+                url: 'fournisseur/',
+                method: 'POST',
+                body: data,
+
+            })
+        })
+
+
+
+
+
+
+
+
 
 
 
@@ -273,10 +357,13 @@ export const { useRegisterUserMutation,
     useLogInUserMutation,
     useGetUsersMutation,
     useActivateUsersMutation,
+
     useAddTenderNoticeMutation,
     useEditTenderNoticeMutation,
     useDeleteTenderNoticeMutation,
-    useGetTenderNoticeMutation,
+    useGetTenderNoticeMutation, 
+    useGetTenderNoticeArchiveMutation,
+
     useAddCdcMutation,
     useEditCdcMutation,
     useDeleteCdcMutation,
@@ -290,5 +377,10 @@ export const { useRegisterUserMutation,
     useAddPvClientMutation,
     useDeletePvClientMutation,
     useGetPvClientMutation,
+
+    useAddClientMutation,
+    useDeleteClientMutation,
+    useEditeClientMutation,
+    useGetClientsMutation,
 
 } = apiSlice

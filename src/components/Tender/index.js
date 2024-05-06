@@ -397,7 +397,7 @@ function TenderNotice({ users, tenders }) {
             <AddComment isOpen={commentOpen} setIsOpen={setAddCommentOpen} itemId={itemToComment} items={tenders} />
             <Comments isOpen={showComments} setIsOpen={setShowComments} itemId={selectedItem} items={tenders} />
 
-            <TableauComparatif tenders={tenders} tenderId={selectedTenderForTab} isOpen={isTabOpen} setIsOpen={setIsTabOpen}/>
+            <TableauComparatif tenderId={selectedTenderForTab} isOpen={isTabOpen} setIsOpen={setIsTabOpen}/>
             <EditItemDialog users={users} items={tenders} itemId={selectedItem} productId={itemIdToDelete} isOpen={dialogEditItem} setIsOpen={setDialogEditItem} />
             {/* {/* <CustomDialog message={dialogMessage} isOpen={isOpen} type={dialogType} setIsOpen={setIsOpen} /> */}
             {progress ? <CustomCircularPogress

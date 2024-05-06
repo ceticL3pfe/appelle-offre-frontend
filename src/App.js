@@ -12,6 +12,7 @@ import Commission from './components/Commission';
 import Cdg from './components/Cdg';
 import NavBar from './components/NavBar';
 import { Box } from '@mui/material';
+import Archive from './components/Archive';
 
 function App() {
   // Assume userRoles is an array containing the roles of the authenticated user
@@ -52,6 +53,7 @@ function App() {
           <Route path="/agentTc" element={<ProtectedRoute element={<><NavBar /><AgentTc /></>} requiredRoles={["agentTc", "admin"]} />} />
           <Route path="/commission" element={<ProtectedRoute element={<><NavBar /><Commission /></>} requiredRoles={["commission", "admin"]} />} />
           <Route path="/cg" element={<ProtectedRoute element={<><NavBar /><Cdg /></>} requiredRoles={["controlleurDeGestion", "admin"]} />} />
+          <Route path="/archive" element={<ProtectedRoute element={<><NavBar /><Archive /></>} requiredRoles={["controlleurDeGestion", "admin","agentTc","directeur","commission"]} />} />
          
          
        
