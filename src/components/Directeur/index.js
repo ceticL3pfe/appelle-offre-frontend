@@ -8,7 +8,7 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import { CartesianGrid, Line, LineChart, PieChart, Tooltip, XAxis, YAxis } from 'recharts'
 import CustomDialog from '../utils/CustomDialog'
 import AddTenderNoticeDialog from '../utils/AddTenderNoticeDialog'
-import TenderNotice from '../Tender'
+import ListTender from '../Tender/ListTender'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectUser } from '../../features/users/userSlice'
 import { selectTenders, setTenders } from '../../features/tenders/tender'
@@ -22,6 +22,7 @@ function Directeur() {
 
     const [getUsers, getUsersResult] = useGetUsersMutation()
     const [getTender, getTenderResult] = useGetTenderNoticeMutation()
+    const [inputText, setInputText] = useState('')
 
     const [demandeCdc, setDemandeCdc] = useState(false)
     const [ToutAo, setToutAo] = useState(true)
@@ -85,6 +86,7 @@ function Directeur() {
             setProgress(false)
 
             setUsers(getUsersResult.data.msg)
+            console.log(users)
 
 
 
@@ -101,7 +103,7 @@ function Directeur() {
         if (demandeCdc) {
 
             newTenders = tenders.map((tender) => {
-                if (tender.status === "validation retrait cdc") {
+                if (tender.status === "validation de retrait de cdc") {
                     return tender
                 }
                 return null;
@@ -113,7 +115,7 @@ function Directeur() {
 
         else if (!ToutAo) {
             newTenders = tenders.map((tender) => {
-                if (tender.status === "validation dossier de reponse") {
+                if (tender.status === "validation de directeur") {
                     return tender
                 }
                 return null;
@@ -127,49 +129,78 @@ function Directeur() {
 
         setCurrentItems(newTenders)
 
-    }, [demandeCdc, tenders,ToutAo])
+    }, [demandeCdc, tenders, ToutAo])
+
+    useEffect(() => {
+        if (inputText !== "") {
 
 
+            const filteredList = currentItems.filter((item) =>
+                item.object.toLowerCase().includes(inputText)
+
+            );
+            setCurrentItems(filteredList);
+
+        } else {
+            if (tenders) {
+
+
+
+                setCurrentItems(tenders);
+            }
+        }
+    }, [inputText]);
+    const handleInputChange = (e) => {
+        setInputText(e.target.value.toLowerCase());
+
+
+
+    };
 
 
 
 
     return (
         <Wrapper>
-            <Stack width={'100%'} justifyContent={'center'}  alignItems={"center"}>
-             
-                    <ButtonGroup>
-                        <Button variant='outlined' onClick={(e) => {
+            <Stack direction={'row'} width={'100%'} height={'100%'}>
+                <Stack padding={'10px'} spacing={4} margin={'15px'} width={'15%'} bgcolor={'white'} sx={{ backgroundColor: 'white.main', borderRadius: '10px', }}>
+                    <Box marginTop={'5px'} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
 
-                            setDemandeCdc(true)
-                            setToutAo(false)
+                        <TextField label='Search Item' placeholder='Search item' type='text' value={inputText} onChange={handleInputChange} />
+                    </Box>
+                    <Button variant='outlined' onClick={(e) => {
 
-                        }}>Demande retrait de Cdc</Button>
-                        <Button variant='outlined' onClick={(e) => {
-                            setDemandeCdc(false)
-                            setToutAo(false)
+                        setDemandeCdc(true)
+                        setToutAo(false)
 
-                        }}>Demande de validation de dossier de reposne</Button>
-                        <Button variant='outlined' onClick={(e) => {
-                            setDemandeCdc(false)
-                            setToutAo(true)
+                    }}>Demande retrait de Cdc</Button>
+                    <Button variant='outlined' onClick={(e) => {
+                        setDemandeCdc(false)
+                        setToutAo(false)
 
-                        }}>Tous les appels d'offres </Button>
-                    </ButtonGroup>
+                    }}>Demande de validation de dossier de reposne</Button>
+                    <Button variant='outlined' onClick={(e) => {
+                        setDemandeCdc(false)
+                        setToutAo(true)
+
+                    }}>Tous les appels d'offres </Button>
+
+                </Stack>
+                <ListTender users={users} tenders={currentItems} />
 
 
             </Stack>
 
 
 
-            <TenderNotice users={users} tenders={currentItems} />
 
 
 
 
 
 
-            <AddTenderNoticeDialog isOpen={isOpen} setIsOpen={setIsOpen} />
+
+
 
 
             {progress ? <CustomCircularPogress

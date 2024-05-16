@@ -88,7 +88,7 @@ console.log(items)
 
   const handleSave = async () => {
     console.log("data,id", data, item._id);
-    await updateItem({ data, id: item._id });
+    await updateItem({ data, id: item._id ,username:user.username});
   };
 
   const handleChange = (field) => (event) => {

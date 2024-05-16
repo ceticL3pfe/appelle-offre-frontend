@@ -27,8 +27,10 @@ import CustomCircularPogress from "./CircularProgress";
 import CustomDialog from "./CustomDialog";
 import { useDispatch, useSelector } from "react-redux";
 import { selectTenders, setTenders } from "../../features/tenders/tender";
+import { selectUser } from "../../features/users/userSlice";
 
 function AddCdc({ isOpen, setIsOpen,tenderId}) {
+  const user = useSelector(selectUser)
 const tenders = useSelector(selectTenders)
   const dispatch = useDispatch()
   const [addCdc, addCdcResult] = useAddCdcMutation();
@@ -106,7 +108,8 @@ const tenders = useSelector(selectTenders)
   
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await addCdc({tenderId,data:formData});
+    console.log(tenderId)
+    await addCdc({tenderId,data:formData,username:user.username});
   };
 
   const handleClose = () => {

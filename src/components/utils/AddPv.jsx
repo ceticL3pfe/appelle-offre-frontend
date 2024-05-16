@@ -30,10 +30,12 @@ import CustomCircularPogress from "./CircularProgress";
 import CustomDialog from "./CustomDialog";
 import { useDispatch, useSelector } from "react-redux";
 import { selectTenders, setTenders } from "../../features/tenders/tender";
+import { selectUser } from "../../features/users/userSlice";
 
 function AddPvClient({ isOpen, setIsOpen, tenderId, }) {
   const dispatch = useDispatch()
 const tenders = useSelector(selectTenders)
+  const user = useSelector(selectUser);
 
   const [addCdc, addCdcResult] = useAddPvClientMutation();
 
@@ -105,7 +107,7 @@ const tenders = useSelector(selectTenders)
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await addCdc({ tenderId, data: formData });
+    await addCdc({ tenderId, data: formData,username:user.username });
   };
 
   const handleClose = () => {

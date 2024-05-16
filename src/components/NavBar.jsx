@@ -1,9 +1,11 @@
 import { styled, Stack, IconButton, Avatar, AppBar ,Typography, Box} from "@mui/material";
 import React from "react";
-import {Article, Chat, Group, History, Home, Inventory, Logout} from "@mui/icons-material";
+import {Article, Chat, Group, History, Home, Image, Inventory, Logout} from "@mui/icons-material";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import { logOut, selectUser } from "../features/users/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate ,useParams} from "react-router-dom";
+import ceticLogo from './../ceticLogo.png'
 function NavBar() {
   const navigate = useNavigate()
   const user = useSelector(selectUser);
@@ -37,54 +39,61 @@ function NavBar() {
     overflow: "unset",
   }));
   return (
-    <StyledNavbar position="fixed" direction={"row"} spacing={5}>
-      <Avatar
-        onClick={() => {
-          navigate(`/profile`);
-        }}
-        sx={{
-          cursor: "pointer",
-          height: 50,
-          width: 50,
-          borderTop: "5px solid transparent",
-        }}
-        variant="circular"
-        src={user?.image}
-        alt="Jane Doe"
-      />
-      <StyledIconButton
-        color="white"
-        disableRipple
-        onClick={() => {
-          navigate(`/main`);
-        }}
-      >
-        <Home />
-      </StyledIconButton>
-      <StyledIconButton
-        color="white"
-        onClick={() => {
-          navigate(`/inventory`);
-        }}
-      >
-        <Inventory />
-      </StyledIconButton>
-      <StyledIconButton
-        color="white"
-        onClick={() => {
-          navigate(`/history`);
-        }}
-      >
-        <History />
-      </StyledIconButton>
-      <StyledIconButton color="white" onClick={handleLogoutClick}>
-        <Logout />
-      </StyledIconButton>
-      <Typography variant="h4">DASHBOARD {user.role}</Typography>
-      <Box>
-        <Link to={"/admin"}>Admin panel</Link>
-      </Box>
-    </StyledNavbar>
+    <Stack>
+      <StyledNavbar position="fixed" direction={"row"} spacing={5}>
+        <Avatar
+          onClick={() => {
+            navigate(`/profile`);
+          }}
+          sx={{
+            cursor: "pointer",
+            height: 50,
+            width: 50,
+            borderTop: "5px solid transparent",
+          }}
+          variant="circular"
+          src={user?.image}
+          alt="Jane Doe"
+        />
+        <StyledIconButton
+          color="white"
+          disableRipple
+          onClick={() => {
+            navigate(`/${user.role}`);
+          }}
+        >
+          <Home />
+        </StyledIconButton>
+        <StyledIconButton
+          color="white"
+          
+          onClick={() => {
+            navigate(`/admin`);
+          }}
+        >
+          <AdminPanelSettingsIcon />
+        </StyledIconButton>
+        <StyledIconButton
+          color="white"
+          onClick={() => {
+            navigate(`/archive`);
+          }}
+        >
+          <History />
+        </StyledIconButton>
+        <StyledIconButton color="white" onClick={handleLogoutClick}>
+          <Logout />
+        </StyledIconButton>
+        <Box>
+          <Link to={"/admin"}>Admin panel</Link>
+        </Box>
+
+        <img
+          src={ceticLogo}
+          style={{ width: "100px", height: "50px", marginLeft: "500px" }}
+        />
+      </StyledNavbar>
+    </Stack>
   );
 }
 

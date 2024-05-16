@@ -6,17 +6,15 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
-import { useDeleteTenderNoticeMutation } from "../../app/api/apiSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDeleteCdcMutation, useDeleteUserMutation } from "../../app/api/apiSlice";
 import { selectTenders, setTenders } from "../../features/tenders/tender";
-import { selectUser } from "../../features/users/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 
-function DeleteItemDialog({ isOpen, setIsOpen, productId }) {
+function DeleteUserDialog({ isOpen, setIsOpen, itemId, setUsers,users }) {
   const [open, setOpen] = useState(isOpen);
-  const tenders = useSelector(selectTenders);
-  const dispatch = useDispatch();
-  const [deleteItem, deleteItemResult] = useDeleteTenderNoticeMutation();
-const user = useSelector(selectUser)
+
+  const [deleteItem, deleteItemResult] = useDeleteUserMutation();
+
   const handleClose = () => {
     setOpen(false);
     setIsOpen(false);
@@ -31,19 +29,25 @@ const user = useSelector(selectUser)
     if (deleteItemResult.status === "rejected") {
       console.log("error while adding item");
     } else if (deleteItemResult.status === "fulfilled") {
-      const filteredItems = tenders.filter((item) => item._id !== productId);
+      const filteredItems = users.map((tender) => {
+        if (tender._id === itemId) {
+          // Modify the tender with the updated information
+          return null
+        }
+        return tender;
+      }).filter(item=>item!==null);
       console.log(filteredItems);
-      dispatch(setTenders(filteredItems));
+      setUsers(filteredItems);
 
-      console.log("item have been added successfully");
+      console.log("item have been deleted successfully");
       setOpen(false);
       setIsOpen(false);
     }
   }, [deleteItemResult]);
 
   const handleDelete = async () => {
-    console.log("productId", productId);
-    await deleteItem({id:productId,username:user.username});
+    console.log("itemId", itemId);
+    await deleteItem({ id:itemId });
   };
   const handleCancel = () => {
     setOpen(false);
@@ -57,9 +61,9 @@ const user = useSelector(selectUser)
       open={open}
       onClose={handleClose}
     >
-      <DialogTitle id="dialog-title">Delete Item</DialogTitle>
+      <DialogTitle id="dialog-title">Delete User</DialogTitle>
       <DialogContent>
-        Are you sure you want to remove the item from the app?
+        Are you sure you want to remove the user from the app?
       </DialogContent>
       <DialogActions>
         <Button onClick={handleDelete} variant="contained">
@@ -73,4 +77,4 @@ const user = useSelector(selectUser)
   );
 }
 
-export default DeleteItemDialog;
+export default DeleteUserDialog;

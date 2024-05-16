@@ -29,7 +29,6 @@ import { setProduct, setTenders } from "../../features/tenders/tender";
 import { selectUser } from "../../features/users/userSlice";
 
 function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
-
   const user = useSelector(selectUser);
   const [open, setOpen] = useState(isOpen);
   const [isDisabled, setIsDisabled] = useState(true);
@@ -52,6 +51,7 @@ function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
     fournisseur_3: null,
     prix_fournisseur_3: null,
     durée_fournisseur_3: null,
+    username:user.username
   });
   const dispatch = useDispatch();
   const handleClose = () => {
@@ -70,7 +70,8 @@ function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
       fournisseur_3: null,
       prix_fournisseur_3: null,
       durée_fournisseur_3: null,
-      selectedFournisseur:null
+      selectedFournisseur: null,
+      username: user.username,
     });
     setIsDisabled(true);
     setOpen(false);
@@ -78,7 +79,15 @@ function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
     // setData("");
   };
 
-
+  useEffect(() => {
+    const arr =users
+      .map((item) => {
+        if (item.role === "agentTc") return item;
+        else return null;
+      })
+      .filter((item) => item !== null);
+      setTcAgents(arr)
+  }, [users]);
   useEffect(() => {
     setOpen(isOpen);
   }, [isOpen]);
@@ -111,6 +120,7 @@ function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
 
   const handleSave = async () => {
     console.log("data,id", data, item._id);
+    console.log(data)
     await updateItem({ data, id: item._id });
   };
 
@@ -121,16 +131,14 @@ function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
     });
     //   console.log(...data)
   };
-const handleFournisseurCheck = (event, fournisseurName) => {
-  console.log(fournisseurName);
-  setData({
-    ...data,
-    ["selectedFournisseur"]: fournisseurName,
-  });
-      setIsDisabled(false);
-
-};
-
+  const handleFournisseurCheck = (event, fournisseurName) => {
+    console.log(fournisseurName);
+    setData({
+      ...data,
+      ["selectedFournisseur"]: fournisseurName,
+    });
+    setIsDisabled(false);
+  };
 
   useEffect(() => {
     console.log(data);
@@ -223,56 +231,46 @@ const handleFournisseurCheck = (event, fournisseurName) => {
         <FormControl fullWidth required>
           <InputLabel id="status-label">Status</InputLabel>
           <Select
-            disabled={!(user.role === "agentTc")}
             required
             label={"Status"}
-            onChange={(e) => {
-              if (e.target.value !== "") {
-                setIsDisabled(false);
-
-                handleChange("status")(e);
-              } else {
-                setIsDisabled(true);
-              }
-            }}
-            defaultValue={item?.status}
+            onChange={handleChange("status")}
             value={data.status}
           >
-            <MenuItem value={"validation retrait cdc"}>
+            <MenuItem value={"validation de retrait de cdc"}>
               <ListItemIcon>
                 <HourglassEmptyIcon />
               </ListItemIcon>
-              validation retrait cdc
+              validation de retrait de cdc
             </MenuItem>
             <MenuItem value={"analyse de la commission"}>
               <ListItemIcon>
-                <HourglassEmptyIcon />
+                <CheckCircleIcon />
               </ListItemIcon>
               analyse de la commission
             </MenuItem>
-            <MenuItem value={"Open"}>
+            <MenuItem value={"analyse de contolleur de gestion"}>
               <ListItemIcon>
                 <CheckCircleIcon />
               </ListItemIcon>
-              Open
+              analyse de contolleur de gestion
             </MenuItem>
-            <MenuItem value={"validation dossier de reponse"}>
+            <MenuItem value={"validation de directeur"}>
               <ListItemIcon>
                 <CheckCircleIcon />
               </ListItemIcon>
-              validation dossier de reponse
+              validation de directeur
             </MenuItem>
-            <MenuItem value={"Closed"}>
+            <MenuItem value={"Terminer"}>
               <ListItemIcon>
                 <CloseIcon />
               </ListItemIcon>
-              Closed
+              Terminer
             </MenuItem>
-            <MenuItem value={"Cancelled"}>
+            <MenuItem value={"Annuler"}>
               <ListItemIcon>
                 <CancelIcon />
               </ListItemIcon>
-              Cancelled
+              Annuler
             </MenuItem>
           </Select>
         </FormControl>

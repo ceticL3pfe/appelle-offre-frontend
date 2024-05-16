@@ -1,14 +1,15 @@
 import { Box, Paper, Stack, styled } from "@mui/material";
 
 export const Wrapper = styled(Box)(({ theme }) => ({
-    display: 'flex',
+      display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'start',
+    alignItems: 'start',
     width: '100%',
-    height: '100vh',
-    backgroundColor:theme.palette.grey[300],
-    marginTop:'75px'
+    height: 'calc(100vh - 75px)', // Adjusted height for the rest of the screen height
+
+    backgroundColor: theme.palette.grey[300],
+    marginTop: '75px'
 })
 )
 

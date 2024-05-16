@@ -42,14 +42,7 @@ export const apiSlice = createApi({
 
         }),
 
-        // updateUser: builder.mutation({
-        //     query: (data) => ({
-        //         url: `user/update/${data.userId}`,
-        //         method: 'PUT',
-        //         body: { email: data?.email, username: data?.username, password: data?.password, image: data?.image }
-        //     }),
 
-        // }),
 
         signOutUser: builder.mutation({
             query: () => ({
@@ -89,6 +82,13 @@ export const apiSlice = createApi({
                 body: data
             })
         }),
+        deleteUser: builder.mutation({
+            query: (data) => ({
+                url: 'user/',
+                method: 'DELETE',
+                body: data
+            })
+        }),
 
 
         //tender notices
@@ -104,6 +104,12 @@ export const apiSlice = createApi({
         getTenderNoticeArchive: builder.mutation({
             query: () => ({
                 url: 'tenderNotice/archive',
+                method: 'GET'
+            })
+        }),
+        getActivities: builder.mutation({
+            query: () => ({
+                url: 'tenderNotice/activity',
                 method: 'GET'
             })
         }),
@@ -134,9 +140,10 @@ export const apiSlice = createApi({
             }
         }),
         deleteTenderNotice: builder.mutation({
-            query: (id) => ({
-                url: `tenderNotice/${id}`,
+            query: (data) => ({
+                url: `tenderNotice/${data.id}`,
                 method: 'DELETE',
+                body:{username:data.username}
 
             })
         }),
@@ -157,10 +164,11 @@ export const apiSlice = createApi({
 
         //ADD FILE
         addCdc: builder.mutation({
-            query: ({ tenderId, data }) => {
+            query: ({ tenderId, data,username }) => {
                 console.log("tenderId,data", tenderId, data)
                 const formData = new FormData();
                 formData.append('file', data.file);
+                formData.append('username', username);
                 return {
                     url: `cdc/${tenderId}`,
                     method: 'POST',
@@ -180,6 +188,7 @@ export const apiSlice = createApi({
                 return ({
                     url: `cdc/${data.itemId}/${data.documentId}`,
                     method: 'DELETE',
+                    body: { username: data.username }
                 })
             }
         }),
@@ -203,10 +212,11 @@ export const apiSlice = createApi({
 
         //ADD FILE
         addAoReponse: builder.mutation({
-            query: ({ tenderId, data }) => {
+            query: ({ tenderId, data ,username}) => {
                 console.log("tenderId,data", tenderId, data)
                 const formData = new FormData();
                 formData.append('file', data.file);
+                formData.append('username', username);
                 return {
                     url: `aoReponse/${tenderId}`,
                     method: 'POST',
@@ -226,6 +236,7 @@ export const apiSlice = createApi({
                 return ({
                     url: `aoReponse/${data.itemId}/${data.documentId}`,
                     method: 'DELETE',
+                    body:{username:data.username}
                 })
             }
         }),
@@ -242,10 +253,11 @@ export const apiSlice = createApi({
 
         //ADD FILE
         addPvClient: builder.mutation({
-            query: ({ tenderId, data }) => {
-                console.log("tenderId,data", tenderId, data)
+            query: ({ tenderId, data ,username}) => {
+                console.log("tenderId,data", tenderId, data,username)
                 const formData = new FormData();
                 formData.append('file', data.file);
+                formData.append('username', username);
                 return {
                     url: `pvClient/${tenderId}`,
                     method: 'POST',
@@ -265,6 +277,7 @@ export const apiSlice = createApi({
                 return ({
                     url: `pvClient/${data.itemId}/${data.documentId}`,
                     method: 'DELETE',
+                    body:{username:data.username}
                 })
             }
         }),
@@ -357,12 +370,14 @@ export const { useRegisterUserMutation,
     useLogInUserMutation,
     useGetUsersMutation,
     useActivateUsersMutation,
+    useDeleteUserMutation,
 
     useAddTenderNoticeMutation,
     useEditTenderNoticeMutation,
     useDeleteTenderNoticeMutation,
     useGetTenderNoticeMutation, 
     useGetTenderNoticeArchiveMutation,
+    useGetActivitiesMutation,
 
     useAddCdcMutation,
     useEditCdcMutation,

@@ -9,11 +9,12 @@ import {
 import { useDeleteAoReponseMutation,  } from "../../app/api/apiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { selectTenders, setTenders } from "../../features/tenders/tender";
+import { selectUser } from "../../features/users/userSlice";
 
 function DeleteAoResponseDialog({ isOpen, setIsOpen, itemId, documentId, }) {
     const dispatch = useDispatch();
     const tenders = useSelector(selectTenders)
-
+const user = useSelector(selectUser)
   const [open, setOpen] = useState(isOpen);
 
   const [deleteItem, deleteItemResult] = useDeleteAoReponseMutation();
@@ -56,7 +57,7 @@ function DeleteAoResponseDialog({ isOpen, setIsOpen, itemId, documentId, }) {
 
   const handleDelete = async () => {
     console.log("itemId", itemId,documentId);
-    await deleteItem({ itemId, documentId });
+    await deleteItem({ itemId, documentId,username:user.username });
   };
   const handleCancel = () => {
     setOpen(false);

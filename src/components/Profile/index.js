@@ -28,24 +28,18 @@ function Profile() {
     return (
         <Wrapper>
             <Stack spacing={5}>
-                <StyledBox >
-                    <Avatar
-                    
-                        onClick = {handleImageClick}
-
-                        sx={{
-                            cursor: 'pointer',
-                            height: 100,
-                            width: 100,
-                        }}
-                        variant="rounded"
-                        src={user?.image ? user?.image : profileImage}
-                        alt="profile-image"
-                    />
-                </StyledBox>
+                
                 <Box >
-                    <Typography sx={{ cursor: 'pointer' }} 
-                    onClick={handleUsernameClick} variant='h3'>{user?.username}</Typography>
+                    <Typography  
+                     variant='h3'>{user?.username}</Typography>
+                </Box>
+                <Box >
+                    <Typography  
+                     variant='h4'>{user?.email}</Typography>
+                </Box>
+                <Box >
+                    <Typography  
+                     variant='h5'>{user?.role}</Typography>
                 </Box>
                 <Box component={Button} onClick={()=>{
                     setOpenDialog(true)
@@ -56,8 +50,6 @@ function Profile() {
                 </Box>
             </Stack>
             <EditPasswordDialog isOpen={openDialog} setIsOpen={setOpenDialog} />
-            <EditUsenameDialog isOpen={openDialogUsername} setIsOpen={setOpenDialogUsername}/>
-            <EditProfilImageDialog isOpen={openDialogImage} setIsOpen={setOpenDialogImage}/>
 
         </Wrapper>
     )

@@ -44,8 +44,8 @@ function AddTenderNoticeDialog({ isOpen, setIsOpen, }) {
     object: null,
     source: null,
     description: null,
-    status: "Pending",
     userId: user?._id,
+    username:user.username
   });
 
   useEffect(() => {
@@ -56,9 +56,7 @@ function AddTenderNoticeDialog({ isOpen, setIsOpen, }) {
     if (
       formData.object &&
       formData.description &&
-      formData.source &&
-      formData.status
-    ) {
+      formData.source     ) {
       setIsDisabled(false);
     } else {
       setIsDisabled(true);
@@ -89,7 +87,8 @@ function AddTenderNoticeDialog({ isOpen, setIsOpen, }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await addTenderNotice(formData);
+    console.log(formData)
+    await addTenderNotice(formData,);
   };
 
   const handleClose = () => {
@@ -97,9 +96,8 @@ function AddTenderNoticeDialog({ isOpen, setIsOpen, }) {
       object: null,
       source: null,
       description: null,
-      status: "Pending",
-          userId:user?._id
-
+      userId: user?._id,
+      username: user.username,
     });
     setIsDisabled(true);
     setIsOpen(false);
@@ -134,67 +132,20 @@ function AddTenderNoticeDialog({ isOpen, setIsOpen, }) {
                 name="description"
                 value={formData.description}
               />
-
-              <Select
-                required
-                label={"Status"}
-                onChange={handleChange("status")}
-                value={formData.status}
-              >
-                <MenuItem value={"validation retrait cdc"}>
-                  <ListItemIcon>
-                    <HourglassEmptyIcon />
-                  </ListItemIcon>
-                  validation retrait cdc
-                </MenuItem>
-                <MenuItem value={"Open"}>
-                  <ListItemIcon>
-                    <CheckCircleIcon />
-                  </ListItemIcon>
-                  Open
-                </MenuItem>
-                <MenuItem value={"validation dossier de reponse"}>
-                  <ListItemIcon>
-                    <CheckCircleIcon />
-                  </ListItemIcon>
-                  validation dossier de reponse
-                </MenuItem>
-                <MenuItem value={"analyse de la commission"}>
-                  <ListItemIcon>
-                    <CheckCircleIcon />
-                  </ListItemIcon>
-                  analyse de la commission
-                </MenuItem>
-                <MenuItem value={"Closed"}>
-                  <ListItemIcon>
-                    <CloseIcon />
-                  </ListItemIcon>
-                  Closed
-                </MenuItem>
-                <MenuItem value={"Cancelled"}>
-                  <ListItemIcon>
-                    <CancelIcon />
-                  </ListItemIcon>
-                  Cancelled
-                </MenuItem>
-              </Select>
               <Stack direction={"row"}>
                 <TextField
-                  
                   label={"fournisseur 1"}
                   onChange={handleChange("fournisseur_1")}
                   name="fournisseur_1"
                   value={formData.fournisseur_1}
                 />
                 <TextField
-                  
                   label={"prix"}
                   onChange={handleChange("prix_fournisseur_1")}
                   name="prix_fournisseur_1"
                   value={formData.prix_fournisseur_1}
                 />
                 <TextField
-                  
                   label={"durée"}
                   onChange={handleChange("durée_fournisseur_1")}
                   name="durée_fournisseur_1"
@@ -203,21 +154,18 @@ function AddTenderNoticeDialog({ isOpen, setIsOpen, }) {
               </Stack>
               <Stack direction={"row"}>
                 <TextField
-                  
                   label={"fournisseur 2"}
                   onChange={handleChange("fournisseur_2")}
                   name="fournisseur_2"
                   value={formData.fournisseur_2}
                 />
                 <TextField
-                  
                   label={"prix"}
                   onChange={handleChange("prix_fournisseur_2")}
                   name="prix_fournisseur_2"
                   value={formData.prix_fournisseur_2}
                 />
                 <TextField
-                  
                   label={"durée"}
                   onChange={handleChange("durée_fournisseur_2")}
                   name="durée_fournisseur_2"
@@ -226,21 +174,18 @@ function AddTenderNoticeDialog({ isOpen, setIsOpen, }) {
               </Stack>
               <Stack direction={"row"}>
                 <TextField
-                  
                   label={"fournisseur 3"}
                   onChange={handleChange("fournisseur_3")}
                   name="fournisseur_3"
                   value={formData.fournisseur_3}
                 />
                 <TextField
-                  
                   label={"prix"}
                   onChange={handleChange("prix_fournisseur_3")}
                   name="prix_fournisseur_3"
                   value={formData.prix_fournisseur_3}
                 />
                 <TextField
-                  
                   label={"durée"}
                   onChange={handleChange("durée_fournisseur_3")}
                   name="durée_fournisseur_3"

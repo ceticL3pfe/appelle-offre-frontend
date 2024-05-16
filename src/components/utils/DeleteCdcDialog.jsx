@@ -9,12 +9,13 @@ import {
 import { useDeleteCdcMutation } from "../../app/api/apiSlice";
 import { selectTenders, setTenders } from "../../features/tenders/tender";
 import { useDispatch, useSelector } from "react-redux";
+import { selectUser } from "../../features/users/userSlice";
 
 function DeleteCdcDialog({ isOpen, setIsOpen, itemId, documentId }) {
   const dispatch = useDispatch();
 const tenders = useSelector(selectTenders)
   const [open, setOpen] = useState(isOpen);
-
+const user = useSelector(selectUser)
   const [deleteItem, deleteItemResult] = useDeleteCdcMutation();
 
   const handleClose = () => {
@@ -54,7 +55,7 @@ const tenders = useSelector(selectTenders)
 
   const handleDelete = async () => {
     console.log("itemId", itemId);
-    await deleteItem({ itemId, documentId });
+    await deleteItem({ itemId, documentId ,username:user.username});
   };
   const handleCancel = () => {
     setOpen(false);

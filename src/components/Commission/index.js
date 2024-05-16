@@ -8,7 +8,7 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import { CartesianGrid, Line, LineChart, PieChart, Tooltip, XAxis, YAxis } from 'recharts'
 import CustomDialog from '../utils/CustomDialog'
 import AddTenderNoticeDialog from '../utils/AddTenderNoticeDialog'
-import TenderNotice from '../Tender'
+import ListTender from '../Tender/ListTender'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectUser } from '../../features/users/userSlice'
 import { selectTenders, setTenders } from "../../features/tenders/tender"
@@ -16,6 +16,7 @@ function Commission() {
     const dispatch = useDispatch()
     const tenders = useSelector(selectTenders)
     const [getTender, getTenderResult] = useGetTenderNoticeMutation()
+    const [currentTanders, setCurrentTenders] = useState([])
 
 
     const [isOpen, setIsOpen] = useState(false)
@@ -58,7 +59,7 @@ function Commission() {
             }).filter((tender) => tender !== null); // Filter out null values
             console.log(userTenders)
             dispatch(setTenders(userTenders))
-
+            setCurrentTenders(userTenders)
 
 
         } else if (getTenderResult.status === 'pending') {
@@ -72,28 +73,43 @@ function Commission() {
 
 
 
+    const [inputText, setInputText] = useState('')
+    useEffect(() => {
+        if (inputText !== "") {
+
+
+            const filteredList = currentTanders.filter((item) =>
+                item.object.toLowerCase().includes(inputText)
+
+            );
+            setCurrentTenders(filteredList);
+
+        } else {
+            if (tenders) {
 
 
 
+                setCurrentTenders(tenders);
+            }
+        }
+    }, [inputText]);
+
+    const handleInputChange = (e) => {
+        setInputText(e.target.value.toLowerCase());
+
+
+
+    };
     return (
         <Wrapper>
-            <Box width={'100%'}>
-                <Typography variant='h3'>DASHBOARD {user.role}</Typography>
-                <BoxHeader direction={'column'} spacing={1}>
+           
 
-                    <Box >
-                        <Link to={"/admin"}>Admin panel</Link>
-                    </Box>
-                </BoxHeader>
+            <Box margin={'15px'} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
 
-                {user.role === 'agentTc' ? (<Button variant='contained' color='success' onClick={() => setIsOpen(true)
-                }>Add Tender Notice</Button>) : null}
-
+                <TextField label='Search Item' placeholder='Search item' type='text' value={inputText} onChange={handleInputChange} />
             </Box>
 
-
-
-            <TenderNotice users={users} tenders={tenders} />
+            <ListTender users={users} tenders={currentTanders} />
 
 
 
