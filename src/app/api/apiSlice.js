@@ -89,6 +89,13 @@ export const apiSlice = createApi({
                 body: data
             })
         }),
+        updateUser: builder.mutation({
+            query: (data) => ({
+                url: `user/${data.userId}`,
+                method: 'PUT',
+                body: data
+            })
+        }),
 
 
         //tender notices
@@ -371,6 +378,7 @@ export const { useRegisterUserMutation,
     useGetUsersMutation,
     useActivateUsersMutation,
     useDeleteUserMutation,
+    useUpdateUserMutation,
 
     useAddTenderNoticeMutation,
     useEditTenderNoticeMutation,

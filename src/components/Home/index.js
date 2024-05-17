@@ -12,6 +12,7 @@ import {  useLogInUserMutation } from '../../app/api/apiSlice';
 import CustomDialog from '../utils/CustomDialog';
 import { resetStore } from '../../helpers/functions';
 
+import ceticLogo from './../../ceticLogo.png'
 
 
 function Home() {
@@ -145,8 +146,7 @@ function Home() {
     <StyledBox backgroundColor={'#F0ECEC'}>
       <Box sx={{ width: '65%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
         <Box>
-          <img src='' alt='chat-logo' />
-          <Typography>partagez et restez en contact avec votre entourage. </Typography>
+          <img src={ceticLogo} alt='cetic-logo' />
         </Box>
         <form onSubmit={handleSubmit}>
           <Paper sx={{ paddingX: '20px', paddingY: '20px', height: '300px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>

@@ -4,10 +4,7 @@ import { StyledBox } from './styles'
 import { Avatar, Box, Button, Stack, TextField, Typography } from '@mui/material'
 import { useSelector } from 'react-redux'
 import { selectUser } from '../../features/users/userSlice'
-import  profileImage from '../../profileImage.png'
 import EditPasswordDialog from '../utils/EditPasswordDialog'
-import EditUsenameDialog from '../utils/EditUsenameDialog'
-import EditProfilImageDialog from '../utils/EditProfilImageDialog'
 
 function Profile() {
 

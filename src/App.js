@@ -55,7 +55,7 @@ function App() {
           <Route path="/commission" element={<ProtectedRoute element={<><NavBar /><Commission /></>} requiredRoles={["commission", "admin"]} />} />
           <Route path="/cg" element={<ProtectedRoute element={<><NavBar /><Cdg /></>} requiredRoles={["controlleurDeGestion", "admin"]} />} />
           <Route path="/archive" element={<ProtectedRoute element={<><NavBar /><Archive /></>} requiredRoles={["controlleurDeGestion", "admin","agentTc","directeur","commission"]} />} />
-          <Route path="/profil" element={<ProtectedRoute element={<><NavBar /><Profile /></>} requiredRoles={["controlleurDeGestion", "admin","agentTc","directeur","commission"]} />} />
+          <Route path="/profile" element={<ProtectedRoute element={<><NavBar /><Profile /></>} requiredRoles={["controlleurDeGestion", "admin","agentTc","directeur","commission"]} />} />
          
          
           <Route path="/admin" element={<ProtectedRoute element={<><NavBar /><Admin /></>} requiredRoles={["admin"]} />} />

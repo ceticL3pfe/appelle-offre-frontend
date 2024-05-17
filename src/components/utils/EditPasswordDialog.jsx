@@ -30,24 +30,7 @@ function EditPasswordDialog({ isOpen, setIsOpen }) {
       [field]: event.target.value,
     });
   };
- useEffect(() => {
-   if (LoginUserResult.status === "rejected") {
-     console.log("wrong password");
-   }
-   const update = async () => {
-    await updateUser({
-      email: user.email,
-      username: user.username,
-      userId: user._id,
-      password:formData.newPassword
-    });
-  };
 
-  if (LoginUserResult.status === "fulfilled") {
-    update();
-  }
-  
- }, [LoginUserResult]);
 useEffect(() => {
   
     if (updateUserResult.status === "rejected") {
@@ -86,8 +69,16 @@ useEffect(() => {
     });
   };
   const handleSave = async () => {
+    const update = async () => {
+      await updateUser({
+        email: user.email,
+        username: user.username,
+        userId: user._id,
+        password: formData.newPassword,
+      });
+    };
     
-    await loginUser({ email: user?.email, password: formData.currentPassword })
+   await update();
    
 
     setOpen(false);
