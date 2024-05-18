@@ -6,23 +6,28 @@ import { Link } from 'react-router-dom'
 import { StyledBox } from './styles'
 import { Check, RemoveRedEye } from '@mui/icons-material'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import { logOut, setCredentials } from '../../features/users/userSlice'
-import { useDispatch} from 'react-redux';
-import {  useLogInUserMutation } from '../../app/api/apiSlice';
+import { logOut, selectUser, setCredentials } from '../../features/users/userSlice'
+import { useDispatch, useSelector} from 'react-redux';
+import {   useLogInUserMutation, useSendVerificationEmailMutation,  } from '../../app/api/apiSlice';
 import CustomDialog from '../utils/CustomDialog';
 import { resetStore } from '../../helpers/functions';
 
 import ceticLogo from './../../ceticLogo.png'
+import RecoverPasswordDialog from '../utils/RecoverPasswordDialog';
 
 
 function Home() {
 
 
+  
+
+const user = useSelector(selectUser)
 
 
   const dispatch = useDispatch()
   // const user =useSelector(selectUser)
 
+  const [sendVerificationEmail,sendVerificationEmailResult] = useSendVerificationEmailMutation()
 
   const [logInUser, logInUserResult] = useLogInUserMutation();
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
@@ -31,6 +36,7 @@ function Home() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogMessage, setDialogMessage] = useState('');
   const [dialogType, setDialogType] = useState('');
+  const [recoverOpen, setRecoverOpen] = useState(false);
 
   useEffect(()=>{
     console.log('HEHEHEHEH')
@@ -50,22 +56,46 @@ function Home() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     await logInUser(formData);
-    const { data } = logInUserResult
-    if(logInUserResult.status==='fulfilled'){
-    const user = data?.user;
-    const token = data?.token
-    console.log('tokenmm=',token)
-    if (data?.user && data?.token) {
-      console.log('entred')
-      const payload = {
-        user:user,
-        token:token
-      }
-      dispatch(setCredentials(payload))
-    }}
+    
 
 
   };
+
+  useEffect(()=>{
+
+
+    if (logInUserResult.status==='fulfilled'){
+      const { data } = logInUserResult
+    
+        const user = data.user;
+        const token = data.token
+        console.log('tokenmm=', token)
+      
+          console.log('entred')
+          const payload = {
+            user: user,
+            token: token
+          }
+          dispatch(setCredentials(payload))
+          navigate(`${user.role}`)
+        
+      
+
+    }else if(logInUserResult.status==='rejected'){
+      
+      if(logInUserResult.error.status===403){
+        setDialogMessage('Email ou mot de pass incorrect')
+        setDialogType("Error")
+        setDialogOpen(true)
+      }
+      console.log("failed to login")
+
+    }else if(logInUserResult.status==='pending'){
+      console.log("pending...")
+
+    }
+
+  }, [logInUserResult])
   // useEffect(()=>{
   //    console.log(user)
 
@@ -84,64 +114,6 @@ function Home() {
 
   const theme = useTheme();
   const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    if (logInUserResult.isError) {
-      if (logInUserResult.error.status === 404 || logInUserResult.error.status === 403) {
-        setDialogMessage('Email or password are incorrect')
-        dispatch(logOut())
-
-      } else {
-        console.log(logInUserResult.status)
-        setDialogMessage('Unknown error occurred')
-        dispatch(logOut())
-
-
-      }
-      setDialogType("Error")
-      setDialogOpen(true)
-    } else {
-      setDialogOpen(false)
-
-      if (logInUserResult.status === 'fulfilled') {
-        console.log(logInUserResult.data)
-      
-        dispatch(setCredentials({ user: logInUserResult.data.user, token: logInUserResult.data.token }))
-        // console.log(logInUserResult)
-
-        console.log(logInUserResult.data.user, 'login successful')
-
-        switch (logInUserResult.data.user.role) {
-          case 'directeur':
-            navigate('/directeur');
-            break;
-          case 'agentTc':
-            navigate('/agentTc');
-            break;
-          case 'commission':
-            navigate('/commission');
-            break;
-          case 'controlleurDeGestion':
-            navigate('/cg');
-            break;
-          case 'admin':
-            navigate('/admin');
-            break;
-          default:
-            // Handle other roles or no role defined
-            break;
-        }
-        
-      }
-
-    }
-
-
-
-
-
-
-  }, [logInUserResult, navigate])
   return (
     <StyledBox backgroundColor={'#F0ECEC'}>
       <Paper sx={{ padding: '20px', width: '400px' , display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
@@ -163,7 +135,9 @@ function Home() {
             </Box>
            
             <Box  sx={{ marginLeft: '100px',marginBottom:"20px" ,marginTop:"10px"}}>
-              <Link style={{ textDecoration: 'none' }}>Mot de passe oublier</Link>
+              <Link onClick={async()=>{
+                setRecoverOpen(true)
+              }} style={{ textDecoration: 'none' }}>Mot de passe oublier</Link>
             </Box>
             <Divider />
             <Box display="flex" justifyContent="center" marginTop={'15px'}>
@@ -205,6 +179,7 @@ function Home() {
         </Alert>
       )}
       
+        <RecoverPasswordDialog isOpen={recoverOpen}  setIsOpen={setRecoverOpen} />
       <CustomDialog message={dialogMessage} setIsOpen={setDialogOpen} isOpen={dialogOpen} type={dialogType} />
       </Paper>
     </StyledBox>
