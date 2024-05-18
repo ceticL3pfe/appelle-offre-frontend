@@ -11,8 +11,7 @@ import { useDispatch} from 'react-redux';
 import {  useLogInUserMutation } from '../../app/api/apiSlice';
 import CustomDialog from '../utils/CustomDialog';
 import { resetStore } from '../../helpers/functions';
-
-import ceticLogo from './../../ceticLogo.png'
+import ceticLogo from '/Users/sirine/Desktop/frontend/CETIC_PFE_FRONTEND/src/logo-cetic.jpg';
 
 
 function Home() {

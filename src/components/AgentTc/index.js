@@ -120,9 +120,10 @@ const [currentTanders,setCurrentTenders] = useState([])
 
     return (
         <Wrapper>
-        <Stack direction={'column'} width={'100%'} >
+        <Stack direction={'column'} width={'100%'}  >
             <Stack
                 margin={'50px'}
+                
                 bgcolor={'white'}
                 sx={{ borderRadius: '10px'}}
                 flexDirection={'row'}
@@ -184,8 +185,8 @@ const [currentTanders,setCurrentTenders] = useState([])
                 >
                     <TextField
                         justifyContent={'center'}
-                        label='Search Item'
-                        placeholder='Search item'
+                        label='Rechercher un AO'
+                        placeholder='Rechercher un AO'
                         type='text'
                         
                         value={inputText}
@@ -196,7 +197,7 @@ const [currentTanders,setCurrentTenders] = useState([])
             </Stack>
     
             <Box flex={'1'} display="flex" flexDirection="column">
-                <ListTender users={users} tenders={currentTanders} />
+                <ListTender   users={users} tenders={currentTanders} />
             </Box>
         </Stack>
     

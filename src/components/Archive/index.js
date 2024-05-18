@@ -179,10 +179,10 @@ function Archive() {
   return (
     <Wrapper>
      <Stack>
-       <Typography variant='h3' marginTop={"80px"} marginLeft={'600px'} style={{ textAlign: 'center' }} >Les archives des AO</Typography>
+       <Typography variant='h3' marginTop={'60px'}  marginLeft={'600px'} style={{ textAlign: 'center' }} >Les archives des AO</Typography>
        </Stack>
       
-      <Box marginTop={'50px'} marginBottom={'30px'}  display={'flex'} flexDirection={'row'} justifyContent={'space-around'} alignItems={'center'} width={'100%'} >
+      <Box marginTop={'50px'} marginBottom={'30px'} display={'flex'} flexDirection={'row'} justifyContent={'space-around'} alignItems={'center'} width={'100%'} >
         
           
       <Button onClick={() => handleDownloadPDF(startDate, endDate)} style={{ fontStyle: 'normal' }}>
@@ -243,7 +243,7 @@ function Archive() {
       >        <Table className={'seles-tab'} aria-label="archive table" bgcolor='#f4f6fa'>
           <TableHead>
   <TableRow>
-    <TableCell align="center">Status</TableCell>
+    <TableCell align="center">Statut</TableCell>
     <TableCell align="center">Commentaire Commission</TableCell>
     <TableCell align="center">Commentaire Controlleur De Gestion</TableCell>
     <TableCell align="center">Commentaire Directeur</TableCell>
@@ -251,7 +251,7 @@ function Archive() {
     <TableCell align="center">Object</TableCell>
     <TableCell align="center">Description</TableCell>
     <TableCell align="center">chef de mission</TableCell>
-    <TableCell align="center">AO Response</TableCell>
+    <TableCell align="center">AO Résponse</TableCell>
     <TableCell align="center">PV Client</TableCell>
     <TableCell align="center">Cahier Charge</TableCell>
     <TableCell align="center">Fourinsseur</TableCell>

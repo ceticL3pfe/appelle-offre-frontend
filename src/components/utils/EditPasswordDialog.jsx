@@ -92,14 +92,14 @@ useEffect(() => {
       open={open}
       onClose={handleClose}
     >
-      <DialogTitle id="dialog-title">Edit Password</DialogTitle>
+      <DialogTitle id="dialog-title" sx={{ textAlign: "center" }} >Modifier mot de passe </DialogTitle>
       <DialogContent>
         <TextField
           value={formData.currentPassword}
-          onChange={handleChange("currentPassword")}
+          onChange={handleChange("Ancien mot de")}
           autoFocus
           margin="dense"
-          label="Current Password"
+          label="Mot de passe actuel"
           // type="password"
           fullWidth
         />
@@ -107,7 +107,7 @@ useEffect(() => {
           value={formData.newPassword}
           onChange={handleChange("newPassword")}
           margin="dense"
-          label="New Password"
+          label="Nouveau mot de passe"
           // type="password"
           fullWidth
         />
@@ -115,15 +115,15 @@ useEffect(() => {
           value={formData.confirmNewPassword}
           onChange={handleChange("confirmNewPassword")}
           margin="dense"
-          label="Confirm New Password"
+          label="Confirmer le nouveau mot de passe"
           // type="password"
           fullWidth
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
+        <Button onClick={handleClose}>Annuler</Button>
         <Button disabled={isDisabled} onClick={handleSave} color="primary">
-          Save
+          Enregistrer
         </Button>
       </DialogActions>
     </Dialog>
