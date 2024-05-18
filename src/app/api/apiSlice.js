@@ -96,6 +96,20 @@ export const apiSlice = createApi({
                 body: data
             })
         }),
+        updateUserPassword: builder.mutation({
+            query: (data) => ({
+                url: `user/password`,
+                method: 'PUT',
+                body: data
+            })
+        }),
+        sendVerificationEmail: builder.mutation({
+            query: (data) => ({
+                url: `user/password`,
+                method: 'POST',
+                body: data
+            })
+        }),
 
 
         //tender notices
@@ -379,6 +393,8 @@ export const { useRegisterUserMutation,
     useActivateUsersMutation,
     useDeleteUserMutation,
     useUpdateUserMutation,
+    useUpdateUserPasswordMutation,
+    useSendVerificationEmailMutation,
 
     useAddTenderNoticeMutation,
     useEditTenderNoticeMutation,
