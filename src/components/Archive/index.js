@@ -174,15 +174,26 @@ function Archive() {
 
 
   };
+  
+  
   return (
     <Wrapper>
-      <Box marginTop={'5px'} display={'flex'} flexDirection={'row'} justifyContent={'space-around'} alignItems={'center'} width={'100%'} >
+     <Stack>
+       <Typography variant='h3' marginTop={"80px"} marginLeft={'600px'} style={{ textAlign: 'center' }} >Les archives des AO</Typography>
+       </Stack>
+      
+      <Box marginTop={'50px'} marginBottom={'30px'}  display={'flex'} flexDirection={'row'} justifyContent={'space-around'} alignItems={'center'} width={'100%'} >
         
-          <TextField label='Search Item' placeholder='Search item' type='text' value={inputText} onChange={handleInputChange} />
-          <Button onClick={() => handleDownloadPDF(startDate, endDate)}><DownloadIcon /> PDF</Button>
+          
+      <Button onClick={() => handleDownloadPDF(startDate, endDate)} style={{ fontStyle: 'normal' }}>
+        <DownloadIcon /> Télécharger en PDF
+           </Button>
+
+
+         
           <Typography>
-            From:
-            <DatePicker
+            
+          De:<DatePicker
               onCalendarOpen={() => setCalendarOpen(true)}
               onCalendarClose={() => setCalendarOpen(false)}
               // popperPlacement="left-start"
@@ -190,6 +201,7 @@ function Archive() {
               onChange={handleStartSelect}
               maxDate={endDate}
               style={{ zIndex: 9999 }}
+              
             // range2Placeholder="End Date"
             // showSelectionPreview={true} // Add optional preview
             />
@@ -197,7 +209,8 @@ function Archive() {
 
           </Typography>
           <Typography>
-            To:
+            <Box>
+            à:
             <DatePicker
               onCalendarOpen={() => setCalendarOpen(true)}
               onCalendarClose={() => setCalendarOpen(false)}
@@ -210,65 +223,55 @@ function Archive() {
             // showSelectionPreview={true} // Add optional preview
             />
             {renderResetButton(endDate, handleResetDate)}
-
+            </Box>
           </Typography>
+          <TextField label='Rechercher un AO'  placeholder='Rechercher un AO' type='text' value={inputText} onChange={handleInputChange} />
       </Box>
       <TableContainer
         ref={pdfRef}
         component={Paper}
         sx={{
           overflowY: 'scroll',
-          height: "90%",
+          height: "400px",
           borderRadius: '15px',
-          margin: '14px',
-          width: '98%',
-          '&::-webkit-scrollbar': {
-            width: '12px',
-          },
-          '&::-webkit-scrollbar-track': {
-            background: '#f1f1f1',
-          },
-          '&::-webkit-scrollbar-thumb': {
-            background: '#888',
-            borderRadius: '10px',
-          },
-          '&::-webkit-scrollbar-thumb:hover': {
-            background: '#555',
-          },
+          marginLeft: '86px',
+          width: '90%',
+          
+         
+         
         }}
-      >        <Table className={'seles-tab'} aria-label="archive table">
+      >        <Table className={'seles-tab'} aria-label="archive table" bgcolor='#f4f6fa'>
           <TableHead>
-            <TableRow>
-              <TableCell>Status</TableCell>
-              <TableCell>Commission Comments</TableCell>
-              <TableCell>Controlleur De Gestion Comments</TableCell>
-              <TableCell>Directeur Comments</TableCell>
-              <TableCell>Source</TableCell>
-              <TableCell>Object</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>chef de mission</TableCell>
-              <TableCell>AO Response</TableCell>
-              <TableCell>PV Client</TableCell>
-              <TableCell>Cahier Charge</TableCell>
-              <TableCell>Fourinsseur</TableCell>
+  <TableRow>
+    <TableCell align="center">Status</TableCell>
+    <TableCell align="center">Commentaire Commission</TableCell>
+    <TableCell align="center">Commentaire Controlleur De Gestion</TableCell>
+    <TableCell align="center">Commentaire Directeur</TableCell>
+    <TableCell align="center">Source</TableCell>
+    <TableCell align="center">Object</TableCell>
+    <TableCell align="center">Description</TableCell>
+    <TableCell align="center">chef de mission</TableCell>
+    <TableCell align="center">AO Response</TableCell>
+    <TableCell align="center">PV Client</TableCell>
+    <TableCell align="center">Cahier Charge</TableCell>
+    <TableCell align="center">Fourinsseur</TableCell>
+    <TableCell align="center">Crée le</TableCell>
+    <TableCell align="center">Terminer le</TableCell>
+  </TableRow>
+</TableHead>
 
-              {/* Add more table headers for other fields as needed */}
-              <TableCell>Crée le</TableCell>
-              <TableCell>Terminer le</TableCell>
-            </TableRow>
-          </TableHead>
           <TableBody>
             {archive?.map((item, index) => (
               <TableRow key={index}>
-                <TableCell>{item.status}</TableCell>
-                <TableCell>{item.commissionComments !== 0 ? item.commissionComments : "---"}</TableCell>
-                <TableCell>{item.controlleurDeGestionComments.length !== 0 ? item.controlleurDeGestionComments : "---"}</TableCell>
-                <TableCell>{item.directeurComments !== 0 ? item.directeurComments : "---"}</TableCell>
-                <TableCell>{item.source}</TableCell>
-                <TableCell>{item.object}</TableCell>
-                <TableCell>{item.description}</TableCell>
-                <TableCell>{item.missionHead ? item.missionHead : '---'}</TableCell>
-                <TableCell>{item.aoResponse ? <IconButton
+                <TableCell align="center">{item.status}</TableCell>
+                <TableCell align="center">{item.commissionComments !== 0 ? item.commissionComments : "---"}</TableCell>
+                <TableCell align="center">{item.controlleurDeGestionComments.length !== 0 ? item.controlleurDeGestionComments : "---"}</TableCell>
+                <TableCell align="center">{item.directeurComments !== 0 ? item.directeurComments : "---"}</TableCell>
+                <TableCell align="center">{item.source}</TableCell>
+                <TableCell align="center">{item.object}</TableCell>
+                <TableCell align="center">{item.description}</TableCell>
+                <TableCell align="center">{item.missionHead ? item.missionHead : '---'}</TableCell>
+                <TableCell align="center">{item.aoResponse ? <IconButton
                   aria-labelledby='aoreponse-label'
                   sx={{ position: "sticky" }}
                   data-file-id={item.aoResponse}

@@ -105,106 +105,118 @@ function AddTenderNoticeDialog({ isOpen, setIsOpen, }) {
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle id="dialog-title">Add Tender Notice</DialogTitle>
+    <DialogTitle id="dialog-title" sx={{ textAlign: "center" }}>
+        Ajouter un appel d'offre
+    </DialogTitle>
 
-      <Box>
+    <Box>
         <DialogContent>
-          <form>
-            <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <TextField
-                required
-                label={"object"}
-                onChange={handleChange("object")}
-                name="object"
-                value={formData.object}
-              />
-              <TextField
-                required
-                label={"Source"}
-                onChange={handleChange("source")}
-                name="source"
-                value={formData.source}
-              />
-              <TextField
-                required
-                label={"Description"}
-                onChange={handleChange("description")}
-                name="description"
-                value={formData.description}
-              />
-              <Stack direction={"row"}>
-                <TextField
-                  label={"fournisseur 1"}
-                  onChange={handleChange("fournisseur_1")}
-                  name="fournisseur_1"
-                  value={formData.fournisseur_1}
-                />
-                <TextField
-                  label={"prix"}
-                  onChange={handleChange("prix_fournisseur_1")}
-                  name="prix_fournisseur_1"
-                  value={formData.prix_fournisseur_1}
-                />
-                <TextField
-                  label={"durée"}
-                  onChange={handleChange("durée_fournisseur_1")}
-                  name="durée_fournisseur_1"
-                  value={formData.durée_fournisseur_1}
-                />
-              </Stack>
-              <Stack direction={"row"}>
-                <TextField
-                  label={"fournisseur 2"}
-                  onChange={handleChange("fournisseur_2")}
-                  name="fournisseur_2"
-                  value={formData.fournisseur_2}
-                />
-                <TextField
-                  label={"prix"}
-                  onChange={handleChange("prix_fournisseur_2")}
-                  name="prix_fournisseur_2"
-                  value={formData.prix_fournisseur_2}
-                />
-                <TextField
-                  label={"durée"}
-                  onChange={handleChange("durée_fournisseur_2")}
-                  name="durée_fournisseur_2"
-                  value={formData.durée_fournisseur_2}
-                />
-              </Stack>
-              <Stack direction={"row"}>
-                <TextField
-                  label={"fournisseur 3"}
-                  onChange={handleChange("fournisseur_3")}
-                  name="fournisseur_3"
-                  value={formData.fournisseur_3}
-                />
-                <TextField
-                  label={"prix"}
-                  onChange={handleChange("prix_fournisseur_3")}
-                  name="prix_fournisseur_3"
-                  value={formData.prix_fournisseur_3}
-                />
-                <TextField
-                  label={"durée"}
-                  onChange={handleChange("durée_fournisseur_3")}
-                  name="durée_fournisseur_3"
-                  value={formData.durée_fournisseur_3}
-                />
-              </Stack>
-            </Box>
-          </form>
+            <form>
+                <Box sx={{ display: "flex", flexDirection: "column" }}>
+                    <TextField
+                        required
+                        label={"Objet"}
+                        onChange={handleChange("object")}
+                        name="object"
+                        value={formData.object}
+                        sx={{ marginBottom: "15px" }}
+                    />
+                    <TextField
+                        required
+                        label={"Source"}
+                        onChange={handleChange("source")}
+                        name="source"
+                        value={formData.source}
+                        sx={{ marginBottom: "15px" }}
+                    />
+                    <TextField
+                        required
+                        label={"Description"}
+                        onChange={handleChange("description")}
+                        name="description"
+                        value={formData.description}
+                        sx={{ marginBottom: "15px" }}
+                    />
+                    <Stack direction={"row"} sx={{ marginBottom: "15px" }}>
+                        <TextField
+                            label={"Fournisseur 1"}
+                            onChange={handleChange("fournisseur_1")}
+                            name="fournisseur_1"
+                            value={formData.fournisseur_1}
+                            sx={{ marginRight: "15px" }}
+                        />
+                        <TextField
+                            label={"Prix"}
+                            onChange={handleChange("prix_fournisseur_1")}
+                            name="prix_fournisseur_1"
+                            value={formData.prix_fournisseur_1}
+                            sx={{ marginRight: "15px" }}
+                        />
+                        <TextField
+                            label={"Durée"}
+                            onChange={handleChange("durée_fournisseur_1")}
+                            name="durée_fournisseur_1"
+                            value={formData.durée_fournisseur_1}
+                        />
+                    </Stack>
+                    <Stack direction={"row"} sx={{ marginBottom: "15px" }}>
+                        <TextField
+                            label={"Fournisseur 2"}
+                            onChange={handleChange("fournisseur_2")}
+                            name="fournisseur_2"
+                            value={formData.fournisseur_2}
+                            sx={{ marginRight: "15px" }}
+                        />
+                        <TextField
+                            label={"Prix"}
+                            onChange={handleChange("prix_fournisseur_2")}
+                            name="prix_fournisseur_2"
+                            value={formData.prix_fournisseur_2}
+                            sx={{ marginRight: "15px" }}
+                        />
+                        <TextField
+                            label={"Durée"}
+                            onChange={handleChange("durée_fournisseur_2")}
+                            name="durée_fournisseur_2"
+                            value={formData.durée_fournisseur_2}
+                        />
+                    </Stack>
+                    <Stack direction={"row"}>
+                        <TextField
+                            label={"Fournisseur 3"}
+                            onChange={handleChange("fournisseur_3")}
+                            name="fournisseur_3"
+                            value={formData.fournisseur_3}
+                            sx={{ marginRight: "15px" }}
+                        />
+                        <TextField
+                            label={"Prix"}
+                            onChange={handleChange("prix_fournisseur_3")}
+                            name="prix_fournisseur_3"
+                            value={formData.prix_fournisseur_3}
+                            sx={{ marginRight: "15px" }}
+                        />
+                        <TextField
+                            label={"Durée"}
+                            onChange={handleChange("durée_fournisseur_3")}
+                            name="durée_fournisseur_3"
+                            value={formData.durée_fournisseur_3}
+                        />
+                    </Stack>
+                </Box>
+            </form>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSubmit} disabled={isDisabled}>
-            Save
-          </Button>
+            <Button onClick={handleClose}>Annuler</Button>
+            <Button onClick={handleSubmit} disabled={isDisabled}>
+                Enregistrer
+            </Button>
         </DialogActions>
 
         {progress ? <CustomCircularPogress /> : null}
-      </Box>
-    </Dialog>
+    </Box>
+</Dialog>
+
   );
 }
 

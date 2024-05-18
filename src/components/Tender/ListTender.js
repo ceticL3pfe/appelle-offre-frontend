@@ -90,86 +90,114 @@ function TenderNotice({ users, tenders }) {
 
     return (
 
-        <Wrapper >
-            <TableContainer sx={{ flex: '1', borderRadius: "5px", margin: '15px', overflowY: 'scroll' }} component={Paper} >
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Title</TableCell>
-                            <TableCell>Source</TableCell>
-                            <TableCell>Mission Head</TableCell>
-                            <TableCell>Description</TableCell>
-                            <TableCell>Status</TableCell>
-                            <TableCell>Actions</TableCell>
-                            {/* Add more table headers as needed */}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {tenders.map((item, index) => (
-                            <TableRow key={index} data-tender-id={item?._id} onClick={(e) => {
-                                setSelectedItem(e.currentTarget.dataset.tenderId)
-                                setDialogTender(true)
-                            }} >
-                                <TableCell>{item.object}</TableCell>
-                                <TableCell>{item.source}</TableCell>
-                                <TableCell>{item.missionHead}</TableCell>
-                                <TableCell>{item.description}</TableCell>
-                                <TableCell>{item.status}</TableCell>
-                                {/* Add more table cells with data */}
-                                <TableCell>
-                                    {
-                                        user.role === 'agentTc' ?
-                                    <><IconButton onClick={() => handleEditItemClick(item._id)}>
-                                                <EditIcon />
-                                            </IconButton><IconButton onClick={() => handleDeleteItemClick(item._id)}>
-                                                    <DeleteIcon />
-                                                </IconButton></>
-                                            : null}
-                                    <Button onClick={() => handleShowCommentsClick(item._id)}>
-                                        Show Comments
-                                    </Button>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <TenderDialog
-                setIsTabOpen={setIsTabOpen}
-                setSelectedTenderForTab={setSelectedTenderForTab}
-
-
-                setSelectedItem={setSelectedItem}
-                setItemToComment={setItemToComment}
-                setShowComments={setShowComments}
-                setAddCommentOpen={setAddCommentOpen}
-                setDialogRemoveItem={setDialogRemoveItem}
-                setDocumentId={setDocumentId} setItemIdToDelete={setItemIdToDelete} setOpenDeleteCdc={setOpenDeleteCdc}
-                setOpenDeletePv={setOpenDeletePv}
-                setOpenDeleteAoResponse={setOpenDeleteAoResponse} setTenderCallId={setTenderCallId} isOpen={dialogTender} setIsOpen={setDialogTender} tenderId={selectedItem} tenderCallId={tenderCallId} setPvOpen={setPvOpen} setCdcOpen={setCdcOpen} setAoOpen={setAoOpen} />
-
-
-
-
-            <AddAoReponse isOpen={aoOpen} setIsOpen={setAoOpen} tenderId={tenderCallId} />
-            <AddCdc isOpen={cdcOpen} setIsOpen={setCdcOpen} tenderId={tenderCallId} />
-            <AddPvClient isOpen={pvOpen} setIsOpen={setPvOpen} tenderId={tenderCallId} />
-
-
-            <DeleteItemDialog productId={itemIdToDelete} isOpen={dialogRemoveItem} setIsOpen={setDialogRemoveItem} />
-            <DeleteCdcDialog isOpen={openDeleteCdc} setIsOpen={setOpenDeleteCdc} itemId={tenderCallId} documentId={documentId} />
-            <DeleteAoResponseDialog isOpen={openDeleteAoResponse} setIsOpen={setOpenDeleteAoResponse} itemId={tenderCallId} documentId={documentId} />
-            <DeletePvClient isOpen={openDeletePv} setIsOpen={setOpenDeletePv} itemId={tenderCallId} documentId={documentId} />
-
-            <DeleteItemDialog productId={itemIdToDelete} isOpen={dialogRemoveItem} setIsOpen={setDialogRemoveItem} />
-
-            <AddComment isOpen={commentOpen} setIsOpen={setAddCommentOpen} itemId={itemToComment} items={tenders} />
-            <Comments isOpen={showComments} setIsOpen={setShowComments} itemId={selectedItem} items={tenders} />
-
-            <TableauComparatif tenderId={selectedTenderForTab} isOpen={isTabOpen} setIsOpen={setIsTabOpen} />
-            <EditItemDialog users={users} items={tenders} itemId={selectedItem} productId={itemIdToDelete} isOpen={dialogEditItem} setIsOpen={setDialogEditItem} />
-
-        </Wrapper>
+        <Wrapper>
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          
+          width="100%"
+        >
+          <TableContainer
+            sx={{
+              borderRadius: "5px",
+              
+              overflowY: 'scroll',
+              backgroundColor: '#f4f6fa',
+              height: '70vh', // Ajuste la hauteur de la table
+              width: '90%',   // Ajuste la largeur de la table
+              maxHeight: '58vh' // Limite maximale de la hauteur de la table
+            }}
+            component={Paper}
+          >
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell style={{ fontWeight: 'bold',textAlign: 'center' }}>Title</TableCell>
+                  <TableCell style={{ color: 'black',textAlign: 'center', fontWeight: 'bold' }}>Source</TableCell>
+                  <TableCell style={{ color: 'black', textAlign: 'center',fontWeight: 'bold' }}>Mission Head</TableCell>
+                  <TableCell style={{ color: 'black', textAlign: 'center',fontWeight: 'bold' }}>Description</TableCell>
+                  <TableCell style={{ color: 'black', textAlign: 'center',fontWeight: 'bold' }}>Status</TableCell>
+                  <TableCell style={{ color: 'black', textAlign: 'center', fontWeight: 'bold' }}>Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {tenders.map((item, index) => (
+                  <TableRow
+                    key={index}
+                    data-tender-id={item?._id}
+                    onClick={(e) => {
+                      setSelectedItem(e.currentTarget.dataset.tenderId);
+                      setDialogTender(true);
+                    }}
+                  >
+                    <TableCell style={{ color: 'black', textAlign: 'center' }}>{item.object}</TableCell>
+                    <TableCell style={{ color: 'black', textAlign: 'center' }}>{item.source}</TableCell>
+                    <TableCell style={{ color: 'black', textAlign: 'center' }}>{item.missionHead}</TableCell>
+                    <TableCell style={{ color: 'black', textAlign: 'center' }}>{item.description}</TableCell>
+                    <TableCell style={{ color: 'black', textAlign: 'center' }}>{item.status}</TableCell>
+                    <TableCell style={{ color: 'black', textAlign: 'center' }}>
+                      {user.role === 'agentTc' ? (
+                        <>
+                          <IconButton onClick={() => handleEditItemClick(item._id)}>
+                            <EditIcon />
+                          </IconButton>
+                          <IconButton onClick={() => handleDeleteItemClick(item._id)}>
+                            <DeleteIcon />
+                          </IconButton>
+                        </>
+                      ) : null}
+                      <Button onClick={() => handleShowCommentsClick(item._id)} style={{  fontStyle: 'normal', }}>
+                        Voir les commentaires
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
+      
+        <TenderDialog
+          setIsTabOpen={setIsTabOpen}
+          setSelectedTenderForTab={setSelectedTenderForTab}
+          setSelectedItem={setSelectedItem}
+          setItemToComment={setItemToComment}
+          setShowComments={setShowComments}
+          setAddCommentOpen={setAddCommentOpen}
+          setDialogRemoveItem={setDialogRemoveItem}
+          setDocumentId={setDocumentId}
+          setItemIdToDelete={setItemIdToDelete}
+          setOpenDeleteCdc={setOpenDeleteCdc}
+          setOpenDeletePv={setOpenDeletePv}
+          setOpenDeleteAoResponse={setOpenDeleteAoResponse}
+          setTenderCallId={setTenderCallId}
+          isOpen={dialogTender}
+          setIsOpen={setDialogTender}
+          tenderId={selectedItem}
+          tenderCallId={tenderCallId}
+          setPvOpen={setPvOpen}
+          setCdcOpen={setCdcOpen}
+          setAoOpen={setAoOpen}
+        />
+      
+        <AddAoReponse isOpen={aoOpen} setIsOpen={setAoOpen} tenderId={tenderCallId} />
+        <AddCdc isOpen={cdcOpen} setIsOpen={setCdcOpen} tenderId={tenderCallId} />
+        <AddPvClient isOpen={pvOpen} setIsOpen={setPvOpen} tenderId={tenderCallId} />
+      
+        <DeleteItemDialog productId={itemIdToDelete} isOpen={dialogRemoveItem} setIsOpen={setDialogRemoveItem} />
+        <DeleteCdcDialog isOpen={openDeleteCdc} setIsOpen={setOpenDeleteCdc} itemId={tenderCallId} documentId={documentId} />
+        <DeleteAoResponseDialog isOpen={openDeleteAoResponse} setIsOpen={setOpenDeleteAoResponse} itemId={tenderCallId} documentId={documentId} />
+        <DeletePvClient isOpen={openDeletePv} setIsOpen={setOpenDeletePv} itemId={tenderCallId} documentId={documentId} />
+      
+        <AddComment isOpen={commentOpen} setIsOpen={setAddCommentOpen} itemId={itemToComment} items={tenders} />
+        <Comments isOpen={showComments} setIsOpen={setShowComments} itemId={selectedItem} items={tenders} />
+      
+        <TableauComparatif tenderId={selectedTenderForTab} isOpen={isTabOpen} setIsOpen={setIsTabOpen} />
+        <EditItemDialog users={users} items={tenders} itemId={selectedItem} productId={itemIdToDelete} isOpen={dialogEditItem} setIsOpen={setDialogEditItem} />
+      </Wrapper>
+      
+      
     );
 }
 

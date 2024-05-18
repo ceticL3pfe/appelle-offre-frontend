@@ -8,7 +8,7 @@ export const Wrapper = styled(Box)(({ theme }) => ({
     width: '98%',
     height: 'calc(100vh - 75px)', // Adjusted height for the rest of the screen height
 
-    backgroundColor: theme.palette.grey[300],
+   
 })
 )
 export const BoxHeader = styled(Box)(({ theme }) => ({

@@ -7,7 +7,7 @@ export const Wrapper = styled(Box)(({ theme }) => ({
     alignItems: 'start',
     width: '100%',
     height: '100vh',
-    backgroundColor: theme.palette.primary.light,
+   
     marginTop: '75px'
 })
 )

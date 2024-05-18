@@ -71,13 +71,19 @@ function AgentTc() {
 
 
 
-
-
-
-
     return (
         <Wrapper>
            
+           <Box
+      sx={{
+        padding: 4, 
+       
+      }}
+    >
+      <Typography variant="h4" > 
+        Les appels d'offres à traiter:
+      </Typography>
+    </Box>
 
 
             <ListTender users={users} tenders={tenders} />

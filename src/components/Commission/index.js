@@ -100,14 +100,27 @@ function Commission() {
 
 
     };
+    
     return (
         <Wrapper>
            
-
-            <Box margin={'15px'} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
-
-                <TextField label='Search Item' placeholder='Search item' type='text' value={inputText} onChange={handleInputChange} />
-            </Box>
+       
+           <Stack
+                marginTop={'50px'}
+                bgcolor={'white'}
+                sx={{ borderRadius: '10px',justifyContent:'space-around'}}
+                flexDirection={'row'}
+                height={'100px'}
+                width={'100%'}
+                
+            >
+              
+                 <Typography variant="h4"> 
+                  Les appels d'offres à examiner 
+                 </Typography>
+                 <TextField label='Rechercher un AO' placeholder='Rechercher un AO' type='text' value={inputText} onChange={handleInputChange} />
+              
+          </Stack>
 
             <ListTender users={users} tenders={currentTanders} />
 

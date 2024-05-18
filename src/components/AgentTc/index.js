@@ -120,42 +120,91 @@ const [currentTanders,setCurrentTenders] = useState([])
 
     return (
         <Wrapper>
-
-
-
-            <Stack direction={'row'} width={'100%'} height={'100%'}>
-                <Stack margin={'15px'}  width={'15%'} bgcolor={'white'} sx={{ backgroundColor: 'white.main', borderRadius: '10px',  }}>
-                    <Box marginTop={'5px'} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
-
-                        <TextField label='Search Item' placeholder='Search item' type='text' value={inputText} onChange={handleInputChange} />
-                    </Box>
-                    <Box marginTop={'5px'} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
-                        <Button sx={{margin:'5px'}} variant='contained' onClick={()=>{
-                            setIsTOpen(true)
-
-                        }}>Ajouter Appel d'offre</Button>
-                    </Box>
-                    
-                    <Box marginTop={'5px'} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
-                        <Button sx={{ margin: '5px', width: '90%' }} onClick={handleMyTendersClick} variant='outlined'>mes missions</Button>
-                    </Box>
-                   
-                    <Box marginTop={'5px'} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
-                        <Button sx={{ margin: '5px' }} onClick={handleAllTendersClick} variant='outlined'>appel d'offre ajouter par moi</Button>
-                    </Box>
-                   
-                </Stack>
-                <ListTender users={users} tenders={currentTanders} />
-
-
+        <Stack direction={'column'} width={'100%'} >
+            <Stack
+                margin={'50px'}
+                bgcolor={'white'}
+                sx={{ borderRadius: '10px'}}
+                flexDirection={'row'}
+                justifyContent={'space-evenly'}
+                height={'100px'}
+            >
+                <Box
+                    display={'flex'}
+                    flexDirection={'column'}
+                    justifyContent={'center'}
+                    alignItems={'center'}
+                >
+                    <Button
+                        sx={{ margin: '5px', fontFamily: 'Arial', fontStyle: 'normal', height: '55px' }}
+                        variant='contained'
+                        onClick={() => {
+                            setIsTOpen(true);
+                        }}
+                    >
+                        Ajouter Appel d'offre
+                    </Button>
+                </Box>
+    
+                <Box
+                    display={'flex'}
+                    flexDirection={'column'}
+                    justifyContent={'center'}
+                    alignItems={'center'}
+                >
+                    <Button
+                        sx={{ margin: '5px', width: '100%', fontFamily: 'Arial', fontStyle: 'normal', height: '55px' }}
+                        onClick={handleMyTendersClick}
+                        variant='outlined'
+                    >
+                        mes missions
+                    </Button>
+                </Box>
+    
+                <Box
+                    display={'flex'}
+                    flexDirection={'column'}
+                    justifyContent={'center'}
+                    alignItems={'center'}
+                >
+                    <Button
+                        sx={{ margin: '5px', fontFamily: 'Arial', fontStyle: 'normal', height: '55px' }}
+                        onClick={handleAllTendersClick}
+                        variant='outlined'
+                    >
+                        mes appel d'offres
+                    </Button>
+                </Box>
+    
+                <Box
+                    display={'flex'}
+                    flexDirection={'column'}
+                    justifyContent={'center'}
+                    alignItems={'center'}
+                >
+                    <TextField
+                        justifyContent={'center'}
+                        label='Search Item'
+                        placeholder='Search item'
+                        type='text'
+                        
+                        value={inputText}
+                        onChange={handleInputChange}
+                        sx={{ fontFamily: 'Arial', fontStyle: 'normal', height: '50px', margin: '5px' }}
+                    />
+                </Box>
             </Stack>
-
-
-            <AddTenderNoticeDialog isOpen={isTOpen} setIsOpen={setIsTOpen} />
-
-            {progress ? <CustomCircularPogress
-            /> : null}
-        </Wrapper>
+    
+            <Box flex={'1'} display="flex" flexDirection="column">
+                <ListTender users={users} tenders={currentTanders} />
+            </Box>
+        </Stack>
+    
+        <AddTenderNoticeDialog isOpen={isTOpen} setIsOpen={setIsTOpen} />
+    
+        {progress ? <CustomCircularPogress /> : null}
+    </Wrapper>
+    
     )
 }
 
