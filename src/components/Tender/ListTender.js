@@ -115,9 +115,9 @@ function TenderNotice({ users, tenders }) {
                 <TableRow>
                   <TableCell style={{ fontWeight: 'bold',textAlign: 'center' }}>Title</TableCell>
                   <TableCell style={{ color: 'black',textAlign: 'center', fontWeight: 'bold' }}>Source</TableCell>
-                  <TableCell style={{ color: 'black', textAlign: 'center',fontWeight: 'bold' }}>Mission Head</TableCell>
+                  <TableCell style={{ color: 'black', textAlign: 'center',fontWeight: 'bold' }}>Responsable de mission </TableCell>
                   <TableCell style={{ color: 'black', textAlign: 'center',fontWeight: 'bold' }}>Description</TableCell>
-                  <TableCell style={{ color: 'black', textAlign: 'center',fontWeight: 'bold' }}>Status</TableCell>
+                  <TableCell style={{ color: 'black', textAlign: 'center',fontWeight: 'bold' }}>Statut</TableCell>
                   <TableCell style={{ color: 'black', textAlign: 'center', fontWeight: 'bold' }}>Actions</TableCell>
                 </TableRow>
               </TableHead>

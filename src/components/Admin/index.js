@@ -70,31 +70,31 @@ function Admin() {
   };
 
   return (
-    <Box sx={{ margin: '75px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+    <Box sx={{ margin:'50px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
       <Typography variant='h3' marginTop={"100px"}>Admin Dashboard</Typography>
       <Stack direction={'row'} spacing={4} sx={{ width: '100%', alignItems: 'center', justifyContent: 'center', marginTop: '40px' }}>
         <Box sx={{ width: '100%', bgcolor: '#f4f6fa', borderRadius: '8px', boxShadow: 3, overflow: 'auto', maxHeight: '560px', marginBottom: '30px' }}>
           <Typography variant='h4' sx={{ p: 2, color: 'black', textAlign: 'center' }}>Utilisateur</Typography>
           <TableContainer component={Paper} sx={{ backgroundColor: 'transparent' }}>
             <Table>
-            <TableRow>
-                <TableCell>
-                      
-                    </TableCell>
-                  <TableCell style={{ color: 'black', textAlign: 'center', fontWeight: 'bold' }}>Email</TableCell>
-                  <TableCell style={{ color: 'black', textAlign: 'center', fontWeight: 'bold' }}>Role</TableCell>
+              <TableHead>
+                <TableRow>
+                  <TableCell style={{ fontWeight: 'bold' }}></TableCell>
+                  <TableCell style={{ color: 'black', paddingLeft: '46px', fontWeight: 'bold' }}>Email</TableCell>
+                  <TableCell style={{ color: 'black', paddingLeft: '70px', fontWeight: 'bold' }}>Role</TableCell>
                   <TableCell style={{ color: 'black', textAlign: 'center', fontWeight: 'bold' }}>Supprimer</TableCell>
                 </TableRow>
+              </TableHead>
               <TableBody>
                 {users.map((value) => (
                   <TableRow key={value._id}>
-                    <TableCell >
+                    <TableCell>
                       <PersonIcon sx={{ marginRight: 0 }} />
                     </TableCell>
-                    <TableCell  style={{ alignItems: 'center' }}>
+                    <TableCell style={{ alignItems: 'center' }}>
                       <Typography variant='body1'>{value.email}</Typography>
                     </TableCell>
-                    <TableCell align="center"  style={{ color: 'black', paddingRight: '175px' }}>{value.role}</TableCell>
+                    <TableCell align="center" style={{ color: 'black', paddingRight: '175px' }}>{value.role}</TableCell>
                     <TableCell align="center">
                       <IconButton edge="center" data-id={value._id} onClick={(e) => {
                         setSelectedUser(e.currentTarget.dataset.id);
@@ -110,7 +110,7 @@ function Admin() {
           </TableContainer>
         </Box>
         <Box sx={{ width: '100%', bgcolor: '#f4f6fa', borderRadius: '8px', boxShadow: 3, overflow: 'auto', maxHeight: '560px' }}>
-          <Typography variant='h4' sx={{ p: 2, color: 'black', textAlign: 'center' }}>Journal d'activité</Typography>
+          <Typography variant='h4' sx={{ p: 2, color: 'black', textAlign: 'center' }}>Journal dactivité</Typography>
           <TableContainer component={Paper} sx={{ backgroundColor: 'transparent' }}>
             <Table>
               <TableHead>

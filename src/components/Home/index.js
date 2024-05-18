@@ -12,9 +12,6 @@ import {   useLogInUserMutation, useSendVerificationEmailMutation,  } from '../.
 import CustomDialog from '../utils/CustomDialog';
 import { resetStore } from '../../helpers/functions';
 
-import ceticLogo from './../../ceticLogo.png'
-import RecoverPasswordDialog from '../utils/RecoverPasswordDialog';
-
 
 function Home() {
 

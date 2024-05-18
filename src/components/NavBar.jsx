@@ -1,99 +1,107 @@
-import { styled, Stack, IconButton, Avatar, AppBar ,Typography, Box} from "@mui/material";
-import React from "react";
-import {Article, Chat, Group, History, Home, Image, Inventory, Logout} from "@mui/icons-material";
-import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import React, { useState } from "react";
+import { styled, Stack, IconButton, AppBar, Box, Typography, Button } from "@mui/material";
+import { Home, History, Logout ,Lock as LockIcon} from "@mui/icons-material";
 import { logOut, selectUser } from "../features/users/userSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate ,useParams} from "react-router-dom";
-import ceticLogo from './../ceticLogo.png'
+import { useNavigate } from "react-router-dom";
+import ceticLogo from './../logo-cetic.jpg';
+import Profile from '../components/Profile';
+import EditPasswordDialog from '../components/utils/EditPasswordDialog';
+
 function NavBar() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
+  const [openDialog, setOpenDialog] = useState(false);
 
-
-  const handleLogoutClick = ()=>{
-   dispatch( logOut())
-   navigate('/')
-  }
-
+  const handleLogoutClick = () => {
+    dispatch(logOut());
+    navigate('/');
+  };
 
   const StyledIconButton = styled(IconButton)(({ theme }) => ({
-    borderLeft: "5px solid transparent",
-    borderRadius: 0,
-    paddingLeft: 15,
-    paddingRight: 15,
+    color: "white",
     "&:hover": {
-      borderLeft: `5px solid ${theme.palette.secondary.main}`,
+      backgroundColor: "transparent",
     },
   }));
+
   const StyledNavbar = styled(AppBar)(({ theme }) => ({
     padding: "10px",
-    flex:'1',
-    // justifyContent: "start",
+    height: "70px",
     width: "100%",
-    alignItems: "center",
-    top: 0,
+    display: "flex",
     flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     backgroundColor: theme.palette.primary.main,
     overflow: "unset",
+    position: "fixed",
+    top: 0,
+    left: 0,
   }));
-  return (
-    <Stack>
-      <StyledNavbar position="fixed" direction={"row"} spacing={5}>
-        <Avatar
-          onClick={() => {
-            navigate(`/profile`);
-          }}
-          sx={{
-            cursor: "pointer",
-            height: 50,
-            width: 50,
-            borderTop: "5px solid transparent",
-          }}
-          variant="circular"
-          src={user?.image}
-          alt="Jane Doe"
-        />
-        <StyledIconButton
-          color="white"
-          disableRipple
-          onClick={() => {
-            navigate(`/${user.role}`);
-          }}
-        >
-          <Home />
-        </StyledIconButton>
-        <StyledIconButton
-          color="white"
-          
-          onClick={() => {
-            navigate(`/admin`);
-          }}
-        >
-          <AdminPanelSettingsIcon />
-        </StyledIconButton>
-        <StyledIconButton
-          color="white"
-          onClick={() => {
-            navigate(`/archive`);
-          }}
-        >
-          <History />
-        </StyledIconButton>
-        <StyledIconButton color="white" onClick={handleLogoutClick}>
-          <Logout />
-        </StyledIconButton>
-        <Box>
-          <Link to={"/admin"}>Admin panel</Link>
-        </Box>
 
+  return (
+    <StyledNavbar>
+      <Profile />
+
+      <Stack direction="row" alignItems="center" spacing={14} mr={4}>
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <StyledIconButton
+            disableRipple
+            onClick={() => {
+              navigate(`/${user.role}`);
+            }}
+          >
+            <Home />
+          </StyledIconButton>
+          <Typography variant="body2" sx={{ color: 'white' }}> {/* Ajoutez un texte à côté de l'icône */}
+            Accueil
+          </Typography>
+        </Stack>
+        
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <StyledIconButton
+            onClick={() => {
+              navigate(`/archive`);
+            }}
+          >
+            <History />
+          </StyledIconButton>
+          <Typography variant="body2" sx={{ color: 'white' }}> {/* Ajoutez un texte à côté de l'icône */}
+            Archive
+          </Typography>
+        </Stack>
+
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <StyledIconButton onClick={() => setOpenDialog(true)}>
+            <LockIcon />
+          </StyledIconButton>
+          <Typography variant="body2" sx={{ color: 'white' }}> {/* Ajoutez un texte à côté de l'icône */}
+            Modifier mot de passe
+          </Typography>
+        </Stack>
+
+        <EditPasswordDialog isOpen={openDialog} setIsOpen={setOpenDialog} /> {/* Placez EditPasswordDialog en dehors de Button */}
+        
+        <Stack direction="row" alignItems="center" spacing={1}>
+  <StyledIconButton onClick={handleLogoutClick}>
+    <Logout />
+  </StyledIconButton>
+  <Typography variant="body2" sx={{ color: 'white' }}> {/* Ajoutez un texte à côté de l'icône */}
+    Déconnexion
+  </Typography>
+</Stack>
+
+      </Stack>
+     
         <img
           src={ceticLogo}
-          style={{ width: "100px", height: "50px", marginLeft: "500px" }}
+          style={{ width: "150px", height: "auto" }}
+          alt="CETIC Logo"
         />
-      </StyledNavbar>
-    </Stack>
+     
+    </StyledNavbar>
   );
 }
 

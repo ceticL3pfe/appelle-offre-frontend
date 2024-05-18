@@ -6,7 +6,8 @@ import { useTheme } from '@mui/material/styles';
 import { useNavigate, Link } from 'react-router-dom';
 import CustomDialog from '../utils/CustomDialog';
 import { useRegisterUserMutation } from '../../app/api/apiSlice';
-import ceticLogo from '../../ceticLogo.png'; // Ajustez le chemin en fonction de votre structure de projet
+
+import ceticLogo from '../../ceticLogo.png'; 
 
 function Register() {
     const [registerUser, registerUserResult] = useRegisterUserMutation();

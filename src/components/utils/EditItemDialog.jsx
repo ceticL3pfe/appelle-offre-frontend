@@ -14,6 +14,7 @@ import {
   IconButton,
   Stack,
   Checkbox,
+  Box,
 } from "@mui/material";
 
 import {
@@ -151,11 +152,14 @@ function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
       open={open}
       onClose={handleClose}
     >
-      <DialogTitle id="dialog-title">Edit Item</DialogTitle>
-      <DialogContent>
+      <DialogTitle id="dialog-title" sx={{ textAlign: "center" ,}} >Modifier l'AO</DialogTitle>
+      <Box></Box>
+      <DialogContent >
+      <Stack direction="column" spacing={2}>
         <TextField
           disabled={!(user.role === "agentTc")}
-          sx={{ marginTop: "5px" }}
+          sx={{ marginTop: "5px"}}
+          
           type="text"
           label="Object"
           defaultValue={item?.object}
@@ -172,7 +176,7 @@ function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
         />
         <TextField
           disabled={!(user.role === "agentTc")}
-          sx={{ marginTop: "5px" }}
+          sx={{ marginTop: "5px",marginRight: "15px" }}
           type="text"
           label="SOURCE"
           defaultValue={item?.source}
@@ -204,7 +208,7 @@ function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
         />
 
         <FormControl fullWidth required>
-          <InputLabel id="mission-head-label">Mission Head</InputLabel>
+          <InputLabel id="mission-head-label">Responsable de la Mission</InputLabel>
           <Select
             disabled={!(user.role === "directeur")}
             labelId="mission-head-label"
@@ -229,7 +233,7 @@ function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
           </Select>
         </FormControl>
         <FormControl fullWidth required>
-          <InputLabel id="status-label">Status</InputLabel>
+          <InputLabel id="status-label">Statut</InputLabel>
           <Select
             required
             label={"Status"}
@@ -274,7 +278,7 @@ function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
             </MenuItem>
           </Select>
         </FormControl>
-        <Stack direction={"row"}>
+        <Stack direction={"row"} spacing={1}>
           <TextField
             defaultValue={item?.fournisseur_1}
             label={"fournisseur 1"}
@@ -323,7 +327,7 @@ function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
             onChange={(e) => handleFournisseurCheck(e, "fournisseur_1")}
           />
         </Stack>
-        <Stack direction={"row"}>
+        <Stack direction={"row"} spacing={1}>
           <TextField
             defaultValue={item?.fournisseur_2}
             label={"fournisseur 2"}
@@ -371,7 +375,7 @@ function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
             onChange={(e) => handleFournisseurCheck(e, "fournisseur_2")}
           />
         </Stack>
-        <Stack direction={"row"}>
+        <Stack direction={"row"} spacing={1}>
           <TextField
             defaultValue={item?.fournisseur_3}
             label={"fournisseur 3"}
@@ -419,11 +423,12 @@ function EditItemDialog({ users, isOpen, setIsOpen, itemId, items }) {
             onChange={(e) => handleFournisseurCheck(e, "fournisseur_3")}
           />
         </Stack>
+        </Stack>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
+        <Button onClick={handleClose}>Annuler</Button>
         <Button onClick={handleSave} disabled={isDisabled}>
-          Save
+          Sauvegarder 
         </Button>
       </DialogActions>
     </Dialog>
