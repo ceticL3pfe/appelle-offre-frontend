@@ -144,37 +144,46 @@ function Home() {
   }, [logInUserResult, navigate])
   return (
     <StyledBox backgroundColor={'#F0ECEC'}>
-      <Box sx={{ width: '65%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-        <Box>
-          <img src={ceticLogo} alt='cetic-logo' />
-        </Box>
+      <Paper sx={{ padding: '20px', width: '400px' , display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+                        <Box display="flex" flexDirection="column" alignItems="center"margin={'20px'}>
+                            <img src={ceticLogo} alt="Logo" style={{ width: '200px', marginBottom: '20px' }} />
         <form onSubmit={handleSubmit}>
-          <Paper sx={{ paddingX: '20px', paddingY: '20px', height: '300px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <Box textAlign="center">
+                                        <Typography marginBottom={'20px'} variant='h4'>
+                                            Se connecter à votre compte
+                                        </Typography>
+                                        
+                                        <Divider />
+                                    </Box>
             <Box>
-              <OutlinedInput name='email' required onChange={handleChange('email')} sx={{ width: '300px' }} placeholder='Email address' />
+              <OutlinedInput name='email' required onChange={handleChange('email')} sx={{ width: '300px',margin:'20px' }} placeholder='Email ' />
             </Box>
             <Box>
-              <TextField name='password' required onChange={handleChange('password')} type={visible ? 'password' : 'text'} sx={{ width: '300px' }} placeholder='Password' InputProps={{ endAdornment: (<IconButton onClick={() => setVisible(!visible)}>{visible ? <VisibilityOffIcon /> : <RemoveRedEye />}</IconButton>) }} />
+              <TextField name='password' required onChange={handleChange('password')} type={visible ? 'password' : 'text'} sx={{ width: '300px',marginBottom:'20px',marginLeft:'20px' }} placeholder='Password' InputProps={{ endAdornment: (<IconButton onClick={() => setVisible(!visible)}>{visible ? <VisibilityOffIcon /> : <RemoveRedEye />}</IconButton>) }} />
             </Box>
-            <Button type='submit' variant='contained'>
-              LogIn
-            </Button>
-            <Box sx={{ marginLeft: '90px' }}>
-              <Link style={{ textDecoration: 'none' }}>Forgot password</Link>
+           
+            <Box  sx={{ marginLeft: '100px',marginBottom:"20px" ,marginTop:"10px"}}>
+              <Link style={{ textDecoration: 'none' }}>Mot de passe oublier</Link>
             </Box>
             <Divider />
-            <Button type='submit' variant='contained' component={Link} sx={{ width: '200px', marginLeft: '50px', backgroundColor: theme.palette.success.main }} to={'/Register'}>
-              Create an account
-            </Button>
-          </Paper>
+            <Box display="flex" justifyContent="center" marginTop={'15px'}>
+  <Button type='submit' variant='contained' sx={{ bgcolor: 'L14DW25C', width: '130px', height: '50px', fontStyle: 'normal' }}>
+    Connexion
+  </Button>
+  <Button type='submit' variant='outlined' component={Link} sx={{ width: '175px', height: '50px', fontStyle: 'normal', marginLeft: '20px' }} to={'/Register'}>
+    Créer un compte
+  </Button>
+</Box>
+
+          
         </form>
       </Box>
       {showSuccessAlert && (
         <Alert
           sx={{
             position: 'absolute',
-            top: '50%',
-            right: '50%',
+            top: '80%',
+          
             zIndex: '3',
           }}
           variant={'filled'}
@@ -197,7 +206,7 @@ function Home() {
       )}
       
       <CustomDialog message={dialogMessage} setIsOpen={setDialogOpen} isOpen={dialogOpen} type={dialogType} />
-
+      </Paper>
     </StyledBox>
   );
 }
