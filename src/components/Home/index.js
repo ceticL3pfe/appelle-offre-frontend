@@ -12,6 +12,8 @@ import {   useLogInUserMutation, useSendVerificationEmailMutation,  } from '../.
 import CustomDialog from '../utils/CustomDialog';
 import { resetStore } from '../../helpers/functions';
 
+import ceticLogo from '../../ceticLogo.png'
+import RecoverPasswordDialog from '../utils/RecoverPasswordDialog';
 
 function Home() {
 
@@ -141,9 +143,7 @@ const user = useSelector(selectUser)
   <Button type='submit' variant='contained' sx={{ bgcolor: 'L14DW25C', width: '130px', height: '50px', fontStyle: 'normal' }}>
     Connexion
   </Button>
-  <Button type='submit' variant='outlined' component={Link} sx={{ width: '175px', height: '50px', fontStyle: 'normal', marginLeft: '20px' }} to={'/Register'}>
-    Créer un compte
-  </Button>
+
 </Box>
 
           

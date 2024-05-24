@@ -196,7 +196,7 @@ function TenderDialog({
                 {tender.directeurResponse}
               </Typography>
             </Stack>
-            <Stack>
+          {user.username===tender.missionHead?  <Stack>
               {tender.cahierCharge ? (
                 <Stack direction={"row"}>
                   {" "}
@@ -335,8 +335,8 @@ function TenderDialog({
                 >
                   Ajouter PV client
                 </Button>
-              ) : null}{" "}
-            </Stack>{" "}
+              ) : null}
+            </Stack>:null}
           </Stack>
         </DialogContent>
         <DialogActions>

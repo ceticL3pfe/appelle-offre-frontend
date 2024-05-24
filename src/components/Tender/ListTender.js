@@ -137,7 +137,7 @@ function TenderNotice({ users, tenders }) {
                     <TableCell style={{ color: 'black', textAlign: 'center' }}>{item.description}</TableCell>
                     <TableCell style={{ color: 'black', textAlign: 'center' }}>{item.status}</TableCell>
                     <TableCell style={{ color: 'black', textAlign: 'center' }}>
-                      {user.role === 'agentTc' ? (
+                      {user.role === 'agentTc' || user.role === 'directeur' ? (
                         <>
                           <IconButton onClick={() => handleEditItemClick(item._id)}>
                             <EditIcon />

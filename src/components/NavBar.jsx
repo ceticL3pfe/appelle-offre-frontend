@@ -3,7 +3,7 @@ import { styled, Stack, IconButton, AppBar, Box, Typography, Button } from "@mui
 import { Home, History, Logout ,Lock as LockIcon} from "@mui/icons-material";
 import { logOut, selectUser } from "../features/users/userSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ceticLogo from './../logo-cetic.jpg';
 import Profile from '../components/Profile';
 import EditPasswordDialog from '../components/utils/EditPasswordDialog';
@@ -55,11 +55,12 @@ function NavBar() {
           >
             <Home />
           </StyledIconButton>
-          <Typography variant="body2" sx={{ color: 'white' }}> {/* Ajoutez un texte à côté de l'icône */}
+          <Typography variant="body2" sx={{ color: "white" }}>
+            {" "}
+            {/* Ajoutez un texte à côté de l'icône */}
             Accueil
           </Typography>
         </Stack>
-        
         <Stack direction="row" alignItems="center" spacing={1}>
           <StyledIconButton
             onClick={() => {
@@ -68,39 +69,56 @@ function NavBar() {
           >
             <History />
           </StyledIconButton>
-          <Typography variant="body2" sx={{ color: 'white' }}> {/* Ajoutez un texte à côté de l'icône */}
+          <Typography variant="body2" sx={{ color: "white" }}>
+            {" "}
+            {/* Ajoutez un texte à côté de l'icône */}
             Archive
           </Typography>
         </Stack>
-
         <Stack direction="row" alignItems="center" spacing={1}>
           <StyledIconButton onClick={() => setOpenDialog(true)}>
             <LockIcon />
           </StyledIconButton>
-          <Typography variant="body2" sx={{ color: 'white' }}> {/* Ajoutez un texte à côté de l'icône */}
+          <Typography variant="body2" sx={{ color: "white" }}>
+            {" "}
+            {/* Ajoutez un texte à côté de l'icône */}
             Modifier mot de passe
           </Typography>
+        { user.role==='admin'? <Button
+            type="submit"
+            variant="outlined"
+            component={Link}
+            sx={{
+              width: "175px",
+              height: "50px",
+              fontStyle: "normal",
+              marginLeft: "20px",
+              color:'white.main'
+            }}
+            to={"/Register"}
+          >
+            Créer un compte
+          </Button>:null}
         </Stack>
-
-        <EditPasswordDialog isOpen={openDialog} setIsOpen={setOpenDialog} /> {/* Placez EditPasswordDialog en dehors de Button */}
-        
+        <EditPasswordDialog isOpen={openDialog} setIsOpen={setOpenDialog} />{" "}
+        {/* Placez EditPasswordDialog en dehors de Button */}
         <Stack direction="row" alignItems="center" spacing={1}>
-  <StyledIconButton onClick={handleLogoutClick}>
-    <Logout />
-  </StyledIconButton>
-  <Typography variant="body2" sx={{ color: 'white' }}> {/* Ajoutez un texte à côté de l'icône */}
-    Déconnexion
-  </Typography>
-</Stack>
-
+          <StyledIconButton onClick={handleLogoutClick}>
+            <Logout />
+          </StyledIconButton>
+          <Typography variant="body2" sx={{ color: "white" }}>
+            {" "}
+            {/* Ajoutez un texte à côté de l'icône */}
+            Déconnexion
+          </Typography>
+        </Stack>
       </Stack>
-     
-        <img
-          src={ceticLogo}
-          style={{ width: "150px", height: "auto" }}
-          alt="CETIC Logo"
-        />
-     
+
+      <img
+        src={ceticLogo}
+        style={{ width: "150px", height: "auto" }}
+        alt="CETIC Logo"
+      />
     </StyledNavbar>
   );
 }
