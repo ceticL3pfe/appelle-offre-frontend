@@ -128,6 +128,12 @@ export const apiSlice = createApi({
                 method: 'GET'
             })
         }),
+        deleteTenderNoticeArchive: builder.mutation({
+            query: (data) => ({
+                url: `tenderNotice/archive/${data._id}`,
+                method: 'DELETE'
+            })
+        }),
         getActivities: builder.mutation({
             query: () => ({
                 url: 'tenderNotice/activity',
@@ -401,6 +407,7 @@ export const { useRegisterUserMutation,
     useDeleteTenderNoticeMutation,
     useGetTenderNoticeMutation, 
     useGetTenderNoticeArchiveMutation,
+    useDeleteTenderNoticeArchiveMutation,
     useGetActivitiesMutation,
 
     useAddCdcMutation,

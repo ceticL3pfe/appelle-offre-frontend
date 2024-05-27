@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useGetTenderNoticeArchiveMutation } from '../../app/api/apiSlice';
+import { useDeleteTenderNoticeArchive, useDeleteTenderNoticeArchiveMutation, useGetTenderNoticeArchiveMutation } from '../../app/api/apiSlice';
 import CustomCircularPogress from '../utils/CircularProgress';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Button, Dialog, TextField, Stack } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Button, TextField, Stack } from '@mui/material';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import { handleDownloadPDF } from '../../helpers/functions';
 import DownloadIcon from '@mui/icons-material/Download';
-
+import DeleteIcon from '@mui/icons-material/Delete';
+import 'react-datepicker/dist/react-datepicker.css';
 
 import DatePicker from 'react-datepicker';
 
@@ -16,6 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectToken } from '../../features/users/userSlice';
 import TableauComparatif from '../utils/TableauComparatif';
 import { selectTenders, setTenders } from '../../features/tenders/tender';
+import DeleteItemDialog from '../utils/DeleteItemDialog';
 
 function Archive() {
 
@@ -24,9 +26,12 @@ function Archive() {
   const [inputText, setInputText] = useState('')
   const dispatch = useDispatch()
   const [getArchive, getArchiveResult] = useGetTenderNoticeArchiveMutation()
+  const [deleteArchive, deleteArchiveResult] = useDeleteTenderNoticeArchiveMutation()
+
   const [calendarOpen, setCalendarOpen] = useState(false);
 
   const [isOpen, setIsOpen] = useState(false)
+  const [selectedTender, setSelectedTender] = useState(null)
   const [endDate, setEndDate] = useState(false)
   const [startDate, setStartDate] = useState(null)
   const [isTabOpen, setIsTabOpen] = useState(null)
@@ -63,8 +68,8 @@ function Archive() {
       setArchive(tenders)
 
       let filtredTenders
-      let fromDate=null
-      let toDate=null
+      let fromDate = null
+      let toDate = null
       console.log(startDate)
       if (startDate)
 
@@ -165,8 +170,8 @@ function Archive() {
 
   }, [getArchiveResult])
   useEffect(() => {
-    console.log(archive)
-  }, [archive])
+    setArchive(tenders)
+  }, [tenders])
 
   const handleInputChange = (e) => {
     setInputText(e.target.value.toLowerCase());
@@ -174,42 +179,42 @@ function Archive() {
 
 
   };
-  
-  
+
+
   return (
     <Wrapper>
-     <Stack>
-       <Typography variant='h3' marginTop={'60px'}  marginLeft={'600px'} style={{ textAlign: 'center' }} >Les archives des AO</Typography>
-       </Stack>
-      
-      <Box marginTop={'50px'} marginBottom={'30px'} display={'flex'} flexDirection={'row'} justifyContent={'space-around'} alignItems={'center'} width={'100%'} >
-        
-          
-      <Button onClick={() => handleDownloadPDF(startDate, endDate)} style={{ fontStyle: 'normal' }}>
-        <DownloadIcon /> Télécharger en PDF
-           </Button>
+      <Box>
+        <Typography variant='h3' marginTop={'10px'}style={{ textAlign: 'center' }} >Les archives des AO</Typography>
+      </Box>
+
+      <Box marginTop={'10px'} marginBottom={'30px'} display={'flex'} flexDirection={'row'} justifyContent={'space-around'} alignItems={'center'} width={'100%'} >
 
 
-         
-          <Typography>
-            
+        <Button onClick={() => handleDownloadPDF(startDate, endDate)} style={{ fontStyle: 'normal' }}>
+          <DownloadIcon /> Télécharger en PDF
+        </Button>
+
+
+
+        <Typography>
+
           De:<DatePicker
-              onCalendarOpen={() => setCalendarOpen(true)}
-              onCalendarClose={() => setCalendarOpen(false)}
-              // popperPlacement="left-start"
-              selected={startDate}
-              onChange={handleStartSelect}
-              maxDate={endDate}
-              style={{ zIndex: 9999 }}
-              
-            // range2Placeholder="End Date"
-            // showSelectionPreview={true} // Add optional preview
-            />
-            {renderResetButton(startDate, handleResetDate)}
+            onCalendarOpen={() => setCalendarOpen(true)}
+            onCalendarClose={() => setCalendarOpen(false)}
+            // popperPlacement="left-start"
+            selected={startDate}
+            onChange={handleStartSelect}
+            maxDate={endDate}
+            style={{ zIndex: 9999 }}
 
-          </Typography>
-          <Typography>
-            <Box>
+          // range2Placeholder="End Date"
+          // showSelectionPreview={true} // Add optional preview
+          />
+          {renderResetButton(startDate, handleResetDate)}
+
+        </Typography>
+        <Typography>
+          <Box>
             à:
             <DatePicker
               onCalendarOpen={() => setCalendarOpen(true)}
@@ -223,9 +228,9 @@ function Archive() {
             // showSelectionPreview={true} // Add optional preview
             />
             {renderResetButton(endDate, handleResetDate)}
-            </Box>
-          </Typography>
-          <TextField label='Rechercher un AO'  placeholder='Rechercher un AO' type='text' value={inputText} onChange={handleInputChange} />
+          </Box>
+        </Typography>
+        <TextField label='Rechercher un AO' placeholder='Rechercher un AO' type='text' value={inputText} onChange={handleInputChange} />
       </Box>
       <TableContainer
         ref={pdfRef}
@@ -236,33 +241,36 @@ function Archive() {
           borderRadius: '15px',
           marginLeft: '86px',
           width: '90%',
-          
-         
-         
+
+
+
         }}
-      >        <Table className={'seles-tab'} aria-label="archive table" bgcolor='#f4f6fa'>
-          <TableHead>
-  <TableRow>
-    <TableCell align="center">Statut</TableCell>
-    <TableCell align="center">Commentaire Commission</TableCell>
-    <TableCell align="center">Commentaire Controlleur De Gestion</TableCell>
-    <TableCell align="center">Commentaire Directeur</TableCell>
-    <TableCell align="center">Source</TableCell>
-    <TableCell align="center">Object</TableCell>
-    <TableCell align="center">Description</TableCell>
-    <TableCell align="center">chef de mission</TableCell>
-    <TableCell align="center">AO Résponse</TableCell>
-    <TableCell align="center">PV Client</TableCell>
-    <TableCell align="center">Cahier Charge</TableCell>
-    <TableCell align="center">Fourinsseur</TableCell>
-    <TableCell align="center">Crée le</TableCell>
-    <TableCell align="center">Terminer le</TableCell>
-  </TableRow>
-</TableHead>
+      >        <Table className={'seles-tab'} aria-label="archive table" bgcolor='#f4f6fa' stickyHeader={!calendarOpen} >
+          <TableHead  >
+            <TableRow>
+              <TableCell align="center">supprimer</TableCell>
+              <TableCell align="center">Statut</TableCell>
+              <TableCell align="center">Commentaire Commission</TableCell>
+              <TableCell align="center">Commentaire Controlleur De Gestion</TableCell>
+              <TableCell align="center">Commentaire Directeur</TableCell>
+              <TableCell align="center">Source</TableCell>
+              <TableCell align="center">Object</TableCell>
+              <TableCell align="center">Description</TableCell>
+              <TableCell align="center">chef de mission</TableCell>
+              <TableCell align="center">AO Résponse</TableCell>
+              <TableCell align="center">PV Client</TableCell>
+              <TableCell align="center">Cahier Charge</TableCell>
+              <TableCell align="center">Fourinsseur</TableCell>
+              <TableCell align="center">Crée le</TableCell>
+              <TableCell align="center">Terminer le</TableCell>
+            </TableRow>
+          </TableHead>
 
           <TableBody>
             {archive?.map((item, index) => (
               <TableRow key={index}>
+                <TableCell align="center"><IconButton data-id={item._id} onClick={(e) => { setSelectedTender(e.currentTarget.dataset.id); setIsOpen(true) }} > <DeleteIcon /></IconButton></TableCell>
+
                 <TableCell align="center">{item.status}</TableCell>
                 <TableCell align="center">{item.commissionComments !== 0 ? item.commissionComments : "---"}</TableCell>
                 <TableCell align="center">{item.controlleurDeGestionComments.length !== 0 ? item.controlleurDeGestionComments : "---"}</TableCell>
@@ -334,6 +342,8 @@ function Archive() {
 
       {progress ? <CustomCircularPogress
       /> : null}
+
+      <DeleteItemDialog isOpen={isOpen} setIsOpen={setIsOpen} productId={selectedTender} />
     </Wrapper>
   );
 

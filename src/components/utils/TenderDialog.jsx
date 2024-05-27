@@ -196,147 +196,149 @@ function TenderDialog({
                 {tender.directeurResponse}
               </Typography>
             </Stack>
-          {user.username===tender.missionHead?  <Stack>
-              {tender.cahierCharge ? (
-                <Stack direction={"row"}>
-                  {" "}
-                  <label id="cdc-label" className="cdc-label">
-                    Cdc file:
-                  </label>
-                  <IconButton
-                    aria-labelledby="cdc-label"
-                    sx={{ position: "sticky" }}
-                    data-file-id={tender.cahierCharge}
-                    onClick={async (e) => {
-                      window.open(
-                        `http://localhost:5000/cdc/cdc-data/${e.currentTarget.dataset.fileId}/${token}`,
-                        "_blank"
-                      );
-                    }}
-                  >
-                    <AttachFileIcon />
-                  </IconButton>
-                  {user.role === "agentTc" ? (
+            {user.username === tender.missionHead || user.role!=='agentTc' ? (
+              <Stack>
+                {tender.cahierCharge ? (
+                  <Stack direction={"row"}>
+                    {" "}
+                    <label id="cdc-label" className="cdc-label">
+                      Cdc file:
+                    </label>
                     <IconButton
-                      data-tender-id={tender._id}
-                      data-document-id={tender.cahierCharge}
-                      onClick={(e) => {
-                        setTenderCallId(e.currentTarget.dataset.tenderId);
-                        setDocumentId(e.currentTarget.dataset.documentId);
-                        setOpenDeleteCdc(true);
+                      aria-labelledby="cdc-label"
+                      sx={{ position: "sticky" }}
+                      data-file-id={tender.cahierCharge}
+                      onClick={async (e) => {
+                        window.open(
+                          `http://localhost:5000/cdc/cdc-data/${e.currentTarget.dataset.fileId}/${token}`,
+                          "_blank"
+                        );
                       }}
                     >
-                      <DeleteOutlineIcon />
+                      <AttachFileIcon />
                     </IconButton>
-                  ) : null}
-                </Stack>
-              ) : user.role === "agentTc" ? (
-                <Button
-                  data-tender-id={tender._id}
-                  variant="outlined"
-                  onClick={(e) => {
-                    setTenderCallId(e.currentTarget.dataset.tenderId);
-                    console.log(e.currentTarget.dataset.tenderId);
-                    setCdcOpen(true);
-                  }}
-                >
-                  Ajouter Cdc
-                </Button>
-              ) : null}
-              {tender.aoResponse ? (
-                <Stack direction={"row"}>
-                  <label id="aoreponse-label" className="aoreponse-label">
-                    Dossier De Reponse:
-                  </label>
-                  <IconButton
-                    aria-labelledby="aoreponse-label"
-                    sx={{ position: "sticky" }}
-                    data-file-id={tender.aoResponse}
-                    onClick={async (e) => {
-                      window.open(
-                        `http://localhost:5000/aoReponse/ao-response-data/${e.currentTarget.dataset.fileId}/${token}`,
-                        "_blank"
-                      );
+                    {user.role === "agentTc" ? (
+                      <IconButton
+                        data-tender-id={tender._id}
+                        data-document-id={tender.cahierCharge}
+                        onClick={(e) => {
+                          setTenderCallId(e.currentTarget.dataset.tenderId);
+                          setDocumentId(e.currentTarget.dataset.documentId);
+                          setOpenDeleteCdc(true);
+                        }}
+                      >
+                        <DeleteOutlineIcon />
+                      </IconButton>
+                    ) : null}
+                  </Stack>
+                ) : user.role === "agentTc" ? (
+                  <Button
+                    data-tender-id={tender._id}
+                    variant="outlined"
+                    onClick={(e) => {
+                      setTenderCallId(e.currentTarget.dataset.tenderId);
+                      console.log(e.currentTarget.dataset.tenderId);
+                      setCdcOpen(true);
                     }}
                   >
-                    <AttachFileIcon />
-                  </IconButton>
-                  {user.role === "agentTc" ? (
+                    Ajouter Cdc
+                  </Button>
+                ) : null}
+                {tender.aoResponse ? (
+                  <Stack direction={"row"}>
+                    <label id="aoreponse-label" className="aoreponse-label">
+                      Dossier De Reponse:
+                    </label>
                     <IconButton
-                      data-tender-id={tender._id}
-                      data-document-id={tender.aoResponse}
-                      onClick={(e) => {
-                        setTenderCallId(e.currentTarget.dataset.tenderId);
-                        setDocumentId(e.currentTarget.dataset.documentId);
+                      aria-labelledby="aoreponse-label"
+                      sx={{ position: "sticky" }}
+                      data-file-id={tender.aoResponse}
+                      onClick={async (e) => {
+                        window.open(
+                          `http://localhost:5000/aoReponse/ao-response-data/${e.currentTarget.dataset.fileId}/${token}`,
+                          "_blank"
+                        );
+                      }}
+                    >
+                      <AttachFileIcon />
+                    </IconButton>
+                    {user.role === "agentTc" ? (
+                      <IconButton
+                        data-tender-id={tender._id}
+                        data-document-id={tender.aoResponse}
+                        onClick={(e) => {
+                          setTenderCallId(e.currentTarget.dataset.tenderId);
+                          setDocumentId(e.currentTarget.dataset.documentId);
 
-                        setOpenDeleteAoResponse(true);
-                      }}
-                    >
-                      <DeleteOutlineIcon />
-                    </IconButton>
-                  ) : null}
-                </Stack>
-              ) : user.role === "agentTc" ? (
-                <Button
-                  data-tender-id={tender._id}
-                  variant="outlined"
-                  onClick={(e) => {
-                    setTenderCallId(e.currentTarget.dataset.tenderId);
-                    console.log(e.currentTarget.dataset.tenderId);
-                    setAoOpen(true);
-                  }}
-                >
-                  Ajouter dossier de reponse
-                </Button>
-              ) : null}
-              {tender.pvClient ? (
-                <Stack direction={"row"}>
-                  {" "}
-                  <label id="cdc-label" className="cdc-label">
-                    Pv Client:
-                  </label>
-                  <IconButton
-                    aria-labelledby="cdc-label"
-                    sx={{ position: "sticky" }}
-                    data-file-id={tender.pvClient}
-                    onClick={async (e) => {
-                      window.open(
-                        `http://localhost:5000/pvClient/client-pv-data/${e.currentTarget.dataset.fileId}/${token}`,
-                        "_blank"
-                      );
+                          setOpenDeleteAoResponse(true);
+                        }}
+                      >
+                        <DeleteOutlineIcon />
+                      </IconButton>
+                    ) : null}
+                  </Stack>
+                ) : user.role === "agentTc" ? (
+                  <Button
+                    data-tender-id={tender._id}
+                    variant="outlined"
+                    onClick={(e) => {
+                      setTenderCallId(e.currentTarget.dataset.tenderId);
+                      console.log(e.currentTarget.dataset.tenderId);
+                      setAoOpen(true);
                     }}
                   >
-                    <AttachFileIcon />
-                  </IconButton>
-                  {user.role === "agentTc" ? (
+                    Ajouter dossier de reponse
+                  </Button>
+                ) : null}
+                {tender.pvClient ? (
+                  <Stack direction={"row"}>
+                    {" "}
+                    <label id="cdc-label" className="cdc-label">
+                      Pv Client:
+                    </label>
                     <IconButton
-                      data-tender-id={tender._id}
-                      data-document-id={tender.pvClient}
-                      onClick={(e) => {
-                        setTenderCallId(e.currentTarget.dataset.tenderId);
-                        setDocumentId(e.currentTarget.dataset.documentId);
-
-                        setOpenDeletePv(true);
+                      aria-labelledby="cdc-label"
+                      sx={{ position: "sticky" }}
+                      data-file-id={tender.pvClient}
+                      onClick={async (e) => {
+                        window.open(
+                          `http://localhost:5000/pvClient/client-pv-data/${e.currentTarget.dataset.fileId}/${token}`,
+                          "_blank"
+                        );
                       }}
                     >
-                      <DeleteOutlineIcon />
+                      <AttachFileIcon />
                     </IconButton>
-                  ) : null}
-                </Stack>
-              ) : user.role === "agentTc" ? (
-                <Button
-                  data-tender-id={tender._id}
-                  variant="outlined"
-                  onClick={(e) => {
-                    setTenderCallId(e.currentTarget.dataset.tenderId);
-                    console.log(e.currentTarget.dataset.tenderId);
-                    setPvOpen(true);
-                  }}
-                >
-                  Ajouter PV client
-                </Button>
-              ) : null}
-            </Stack>:null}
+                    {user.role === "agentTc" ? (
+                      <IconButton
+                        data-tender-id={tender._id}
+                        data-document-id={tender.pvClient}
+                        onClick={(e) => {
+                          setTenderCallId(e.currentTarget.dataset.tenderId);
+                          setDocumentId(e.currentTarget.dataset.documentId);
+
+                          setOpenDeletePv(true);
+                        }}
+                      >
+                        <DeleteOutlineIcon />
+                      </IconButton>
+                    ) : null}
+                  </Stack>
+                ) : user.role === "agentTc" ? (
+                  <Button
+                    data-tender-id={tender._id}
+                    variant="outlined"
+                    onClick={(e) => {
+                      setTenderCallId(e.currentTarget.dataset.tenderId);
+                      console.log(e.currentTarget.dataset.tenderId);
+                      setPvOpen(true);
+                    }}
+                  >
+                    Ajouter PV client
+                  </Button>
+                ) : null}
+              </Stack>
+            ) : null}
           </Stack>
         </DialogContent>
         <DialogActions>
@@ -375,8 +377,7 @@ function TenderDialog({
             show comments
           </Button>
           {(user.role === "directeur" &&
-            (tender.status === "validation de retrait de cdc" 
-             )) ||
+            tender.status === "validation de retrait de cdc") ||
           (user.role === "commission" &&
             tender.status === "analyse de la commission") ||
           (user.role === "controlleurDeGestion" &&
@@ -426,8 +427,8 @@ function TenderDialog({
             </>
           ) : null}
           {user.role === "directeur" &&
-            (
-              tender.status === "validation de directeur")?  <Button
+          tender.status === "validation de directeur" ? (
+            <Button
               data-item-id={tender._id}
               onClick={async (e) => {
                 const itemId = e.currentTarget.dataset.itemId;
@@ -440,10 +441,13 @@ function TenderDialog({
               color="success"
             >
               Terminer
-            </Button>:null}
+            </Button>
+          ) : null}
 
           {user.role === "directeur" &&
-          tender.directeurResponse === "refused" ? (
+          (tender.directeurResponse === "refused" ||
+            tender.commissionResponse === "refused" ||
+            tender.controlleurDeGestionResponse === "refused") ? (
             <Button
               data-item-id={tender._id}
               onClick={async (e) => {
