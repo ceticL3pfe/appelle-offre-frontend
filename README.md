@@ -1,4 +1,4 @@
-# This is the server side for the web app that we developed for CETIC SPA
+# This is the Client side of the web app that we developed for CETIC SPA
 
 
 
