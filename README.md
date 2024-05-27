@@ -4,7 +4,7 @@
 
 ## to run the code 
 
-###1
+### 1
 npm i
-###2
+### 2
 npm start
