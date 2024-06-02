@@ -104,7 +104,7 @@ console.log(items)
   },[data])
 
   return (
-    <Dialog
+   user? (<Dialog
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"
       open={open}
@@ -136,7 +136,7 @@ console.log(items)
           Save
         </Button>
       </DialogActions>
-    </Dialog>
+    </Dialog>):null
   );
 }
 

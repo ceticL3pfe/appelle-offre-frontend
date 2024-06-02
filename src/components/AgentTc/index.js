@@ -7,7 +7,6 @@ import CustomCircularPogress from '../utils/CircularProgress'
 
 import CustomDialog from '../utils/CustomDialog'
 import AddTenderNoticeDialog from '../utils/AddTenderNoticeDialog'
-import TenderNotice from '../Tender'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectUser } from '../../features/users/userSlice'
 import { selectTenders, setTenders } from "../../features/tenders/tender"
@@ -73,8 +72,6 @@ const [currentTanders,setCurrentTenders] = useState([])
         } else if (getTenderResult.status === 'fulfilled') {
 
 
-
-
             setProgress(false)
             const userTenders = getTenderResult.data.msg.map((tender) => {
                 // Check if the tender's missionHead matches the user's id
@@ -115,7 +112,20 @@ const [currentTanders,setCurrentTenders] = useState([])
 
 
 
+useEffect(()=>{
+    const userTenders = tenders.map((tender) => {
+        // Check if the tender's missionHead matches the user's id
+        if (tender.missionHead === user.username || tender.userId === user._id) {
+            // If the condition is met, return the tender
+            return tender;
+        }
+        // If the condition is not met, return null
+        return null;
+    }).filter((tender) => tender !== null); // Filter out null values
+    console.log(userTenders)
+    setCurrentTenders(userTenders)
 
+},[tenders])
 
 
     return (

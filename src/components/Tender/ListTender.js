@@ -20,7 +20,6 @@ import {
 import { theme } from '../theme';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import TenderNoticeDialog from '.';
 import TenderDialog from '../utils/TenderDialog';
 import AddAoReponse from '../utils/AddAoReponse';
 import AddCdc from '../utils/AddCdc';
@@ -33,7 +32,6 @@ import AddComment from '../utils/AddComment';
 import Comments from '../utils/Comments';
 import TableauComparatif from '../utils/TableauComparatif';
 import EditItemDialog from '../utils/EditItemDialog';
-import AddTenderNoticeDialog from '../utils/AddTenderNoticeDialog';
 import { Wrapper } from './styles';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../features/users/userSlice';

@@ -7,7 +7,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import CustomDialog from '../utils/CustomDialog';
 import { useRegisterUserMutation } from '../../app/api/apiSlice';
 
-import ceticLogo from '../../ceticLogo.png'; 
+import ceticLogo from '../../apLogoColored.png'; 
 
 function Register() {
     const [registerUser, registerUserResult] = useRegisterUserMutation();
@@ -171,7 +171,7 @@ function Register() {
                     </Paper>
                 </>
             }
-            <CustomDialog message={dialogMessage} isOpen={dialogOpen} type={dialogType} />
+            <CustomDialog message={dialogMessage} isOpen={dialogOpen} type={dialogType} setIsOpen={setDialogOpen} />
         </Wrapper>
     );
 }

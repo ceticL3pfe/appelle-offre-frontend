@@ -4,7 +4,7 @@ import { Home, History, Logout ,Lock as LockIcon} from "@mui/icons-material";
 import { logOut, selectUser } from "../features/users/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import ceticLogo from './../logo-cetic.jpg';
+import ceticLogo from './../apLogo.png';
 import Profile from '../components/Profile';
 import EditPasswordDialog from '../components/utils/EditPasswordDialog';
 
