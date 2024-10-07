@@ -1,3 +1,6 @@
+![logo](/src/apLogoColored.png)
+
+
 # This is the client side of the web app that we developed for CETIC SPA
 
 
